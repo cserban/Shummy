@@ -10,17 +10,17 @@ public class QuestionClassifier {
 	private Classifier<String,String> classifier;
 	private static boolean trained = false;
 	public static void main(String[] args) {
-	    ColumnDataClassifier cdc = new ColumnDataClassifier("question.prop");
+	    ColumnDataClassifier cdc = new ColumnDataClassifier("question/question.prop");
 	    Classifier<String,String> cl =
-	        cdc.makeClassifier(cdc.readTrainingExamples("question.train"));
-	    for (String line : ObjectBank.getLineIterator("question.test")) {
+	        cdc.makeClassifier(cdc.readTrainingExamples("question/question_3000.train"));
+	    for (String line : ObjectBank.getLineIterator("question/question.test")) {
 	      Datum<String,String> d = cdc.makeDatumFromLine(line, 0);
 	      System.out.println(line + "  ==>  " + cl.classOf(d));
 	    }
 	  }
 
 	public void train(String trainFileName) {
-			dataColumnClassifier = new ColumnDataClassifier("question.prop");
+			dataColumnClassifier = new ColumnDataClassifier("question/question.prop");
 			classifier =
 					dataColumnClassifier.makeClassifier(dataColumnClassifier.readTrainingExamples(trainFileName));
 			trained = true;

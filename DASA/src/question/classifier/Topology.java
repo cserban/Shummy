@@ -1,6 +1,7 @@
 package question.classifier;
 
 public class Topology {
+	//http://cogcomp.cs.illinois.edu/Data/QA/QC/definition.html
 	 public static String DESC_manner = "DESC:manner";
 	 public static String ENTY_cremat = "ENTY:cremat";
 	 public static String ENTY_animal = "ENTY:animal";
