@@ -90,17 +90,17 @@ public class QuestionClassifier {
 	}
 
 	//for the n binary classification problems
-		public static void increaseTNToAllExcept(String key) {
-			for(String keys : classCount.keySet()) {
-				if(key.toUpperCase().equals(keys)) {
-					continue;
-				} else {
-					Count c = classCount.get(keys);
-					c.tn ++;
-					classCount.put(keys, c);
-				}
+	public static void increaseTNToAllExcept(String key) {
+		for(String keys : classCount.keySet()) {
+			if(key.toUpperCase().equals(keys)) {
+				continue;
+			} else {
+				Count c = classCount.get(keys);
+				c.tn ++;
+				classCount.put(keys, c);
 			}
 		}
+	}
 	
 }
 class Count {
