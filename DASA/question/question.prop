@@ -4,8 +4,8 @@
 useClassFeature=true
 1.useNGrams=true
 1.usePrefixSuffixNGrams=true
-1.maxNGramLeng=4
-1.minNGramLeng=1
+1.maxNGramLeng=5
+1.minNGramLeng=4
 1.binnedLengths=10,20,30
 #
 # Printing
@@ -28,5 +28,5 @@ tolerance=1e-4
 #
 # Training input
 #
-trainFile=question.train
+trainFile=question_5500.train
 testFile=question.test

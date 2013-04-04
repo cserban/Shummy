@@ -13,6 +13,8 @@ public class QuestionClassifier {
 	private static boolean trained = false;
 	private static HashMap<String, Integer> classTotal = new HashMap<String, Integer>();
 	private static HashMap<String, Count> classCount = new HashMap<String, Count>();
+	private static HashMap<String, Integer> classGTotal = new HashMap<String, Integer>();
+	private static HashMap<String, Count> classGCount = new HashMap<String, Count>();
 	private static boolean computeAccuracy = true;
 	private static int total = 0;
 
@@ -40,13 +42,34 @@ public class QuestionClassifier {
 	    		  c1 = (c1 == null)? new Count() : c1;
 	    		  if(classLabel.equals(actualClass)) {
 	    			  c.tp = c.tp + 1;
-	    			  increaseTNToAllExcept(actualClass);
+	    			  increaseTNToAllExcept(classCount, actualClass);
 	    			  classCount.put(actualClass, c);
 	    		  } else {
 	    			  c1.fp = c1.fp + 1;
 	    			  classCount.put(classLabel, c1);
 	    			  c.fn = c.fn + 1;
 	    			  classCount.put(actualClass, c);
+	    		  }
+
+	    		  actualClass = actualClass.substring(0, actualClass.indexOf(":"));
+	    		  classLabel = classLabel.substring(0,classLabel.indexOf(":"));
+	    		  count = classGTotal.get(actualClass);
+	    		  count = (count == null) ? new Integer(1) : new Integer(count.intValue() + 1);
+	    		  classGTotal.put(actualClass, count);
+	    		  //true positives and such
+	    		  c = classGCount.get(actualClass);
+	    		  c1 = classGCount.get(classLabel);
+	    		  c = (c == null)? new Count() : c;
+	    		  c1 = (c1 == null)? new Count() : c1;
+	    		  if(classLabel.equals(actualClass)) {
+	    			  c.tp = c.tp + 1;
+	    			  increaseTNToAllExcept(classGCount, actualClass);
+	    			  classGCount.put(actualClass, c);
+	    		  } else {
+	    			  c1.fp = c1.fp + 1;
+	    			  classGCount.put(classLabel, c1);
+	    			  c.fn = c.fn + 1;
+	    			  classGCount.put(actualClass, c);
 	    		  }
 	    	  }
 	      }
@@ -69,7 +92,26 @@ public class QuestionClassifier {
 	    		fscore += (classTotal.get(c).doubleValue() / (double)total) * count.fscore;
 	    	}
 	    	fscore = (2 *precision * recall) / (precision + recall);
+
+	    	double precisionG = 0;
+	    	double recallG = 0;
+	    	double fscoreG = 0;
+	    	for(String c : classGCount.keySet()) {
+	    		Count count = classGCount.get(c);
+	    		if(classGTotal.get(c) == null) {
+	    			classGTotal.put(c,  new Integer(0));
+	    		}
+	    		count.precision = ((count.tp + count.fp) == 0)? 0 : (double)count.tp / (double)(count.tp + count.fp);
+	    		count.recall = ((count.tp + count.fn) == 0)? 0 : (double)count.tp / (double)(count.tp + count.fn);
+	    		count.fscore = ((count.precision + count.recall) == 0)? 0 : (double)(2 * count.precision * count.recall) / (double)(count.precision + count.recall);
+	    		System.out.println(c + "[" + classGTotal.get(c) +  "] "+ count + " ->" + count.precision + " " + count.recall +" " + count.fscore + " ");
+	    		precisionG += (classGTotal.get(c).doubleValue() / (double)total) * count.precision;
+	    		recallG += (classGTotal.get(c).doubleValue() / (double)total) * count.recall;
+	    		fscoreG += (classGTotal.get(c).doubleValue() / (double)total) * count.fscore;
+	    	}
+	    	fscoreG = (2 *precisionG * recallG) / (precisionG + recallG);
 	    	System.out.println("Final: " + precision + " " + recall + " " + fscore);
+	    	System.out.println("Final G: " + precisionG + " " + recallG + " " + fscoreG);
 	    }
 	  }
 
@@ -90,14 +132,14 @@ public class QuestionClassifier {
 	}
 
 	//for the n binary classification problems
-	public static void increaseTNToAllExcept(String key) {
-		for(String keys : classCount.keySet()) {
+	public static void increaseTNToAllExcept(HashMap<String, Count> count, String key) {
+		for(String keys : count.keySet()) {
 			if(key.toUpperCase().equals(keys)) {
 				continue;
 			} else {
-				Count c = classCount.get(keys);
+				Count c = count.get(keys);
 				c.tn ++;
-				classCount.put(keys, c);
+				count.put(keys, c);
 			}
 		}
 	}
