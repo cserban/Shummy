@@ -82,6 +82,7 @@ public class WordNetInterface {
 	public static void main(String[] args) throws IOException {
 
 		System.out.println();
+		System.out.println(wordnet.getDistance("extraterrestrial", "stranger", "n"));
 		String word = "run";
 		System.out.println("\nFinding parts of speech for " + word + ".");
 		String[] partsofspeech = WordNetInterface.getPOSForWord(word);
