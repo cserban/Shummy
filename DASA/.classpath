@@ -3,5 +3,8 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="lib" path="libs/stanford-classifier-2.1.7.jar"/>
+	<classpathentry kind="lib" path="libs/RiTaWN.jar"/>
+	<classpathentry kind="lib" path="libs/supportWN.jar"/>
+	<classpathentry kind="lib" path="libs/core.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
