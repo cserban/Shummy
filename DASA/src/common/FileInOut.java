@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 
 public class FileInOut {
 	
@@ -22,4 +23,15 @@ public class FileInOut {
 			stream.close();
 		}
 	}
+	
+	/*
+	 * Returns all filenames within a specific folder
+	 */
+	public static ArrayList<String> getFiles(File folder) {
+        ArrayList<String> filenames = new ArrayList<>();
+        for (File fileEntry : folder.listFiles()) {
+            filenames.add(folder.getAbsolutePath() + "/" + fileEntry.getName());
+        }
+        return filenames;
+    }
 }
