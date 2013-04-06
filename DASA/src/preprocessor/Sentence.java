@@ -14,11 +14,9 @@ public class Sentence {
 	 * The_DT Fulton_NNP County_NNP Grand_NNP Jury_NNP said_VBD Friday_NNP an_DT investigation_NN  ._. 
 	 */
 	public Sentence(String tagged_content) {
-		System.out.println(tagged_content);
 		this.words = new ArrayList<>();
 		String[] tagged_words = tagged_content.split(" ");
 		for (String tagged_word : tagged_words) {
-			System.out.println(tagged_word);
 			if (tagged_word.split("_").length != 2)
 				System.out.println("weird tagged word: " + tagged_word);
 			else {

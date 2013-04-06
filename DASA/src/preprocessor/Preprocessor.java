@@ -33,6 +33,7 @@ public class Preprocessor {
 		ArrayList<String> corpus_filenames = FileInOut.getFiles(corpus_folder);
 		Hashtable<String, String> tagged_content = tagSentences(corpus_filenames);
 		Hashtable<String, ArrayList<Sentence>> tagged_sentences = StringParse.splitInSentences(tagged_content);
+		Hashtable<String, ArrayList<Sentence>> clean_sentences = StringParse.removeStopwordsAndPunctuation(tagged_sentences);
 		System.out.println("Done preprocessing! :)");
 	}
 	

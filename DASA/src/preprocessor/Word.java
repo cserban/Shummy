@@ -1,8 +1,8 @@
 package preprocessor;
 
 public class Word {
-	String str;
-	String tag;
+	public String str;
+	public String tag;
 	
 	public Word() {
 		super();
@@ -18,5 +18,10 @@ public class Word {
 		this.str = str;
 		this.tag = tag;
 	};
+	
+	@Override
+	public String toString() {
+		return "( " + str + ", " + tag + " )";
+	}
 	
 }

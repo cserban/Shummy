@@ -2,6 +2,7 @@ package common;
 
 import java.text.BreakIterator;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Locale;
@@ -34,5 +35,30 @@ public class StringParse {
             sentences_per_file.put(filename, splitSentences);
         }
         return sentences_per_file;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public static Hashtable<String, ArrayList<Sentence>> removeStopwordsAndPunctuation(Hashtable<String, ArrayList<Sentence>> tagged_sentences) {
+		Hashtable<String, ArrayList<Sentence>> clean_sentences = new Hashtable<String, ArrayList<Sentence>>();
+		
+		ArrayList<String> stopwords = new ArrayList<String>(Arrays.asList(Constants.STOPWORDS));
+		Iterator<Entry<String, ArrayList<Sentence>>> it = tagged_sentences.entrySet().iterator();
+        while (it.hasNext()) {
+			Map.Entry pairs = (Map.Entry)it.next();
+            String filename = (String)pairs.getKey();
+			ArrayList<Sentence> sentences = (ArrayList<Sentence>)pairs.getValue();
+            ArrayList<Sentence> newSentences = new ArrayList<>();
+            for (Sentence s : sentences) {
+            	Sentence newSentence = new Sentence();
+            	for (Word w : s.words) {
+            		if (w.str.equals(w.tag)) {}
+            		else if (stopwords.indexOf(w.str.toLowerCase())>=0) {}
+            		else newSentence.words.add(new Word(w.str.toLowerCase(), w.tag));
+            	}
+            	newSentences.add(newSentence);
+            }
+            clean_sentences.put(filename, newSentences);
+        }
+        return clean_sentences;
 	}
 }
