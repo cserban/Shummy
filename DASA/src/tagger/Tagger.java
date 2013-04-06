@@ -1,11 +1,9 @@
 package tagger;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.FileChannel;
-import java.nio.charset.Charset;
+
+import common.FileInOut;
 
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 
@@ -32,7 +30,7 @@ public class Tagger {
 			e.printStackTrace();
 		}
 		try {
-			result = tagger.tagString(readFile(this.in));
+			result = tagger.tagString(FileInOut.readFile(this.in));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -40,18 +38,7 @@ public class Tagger {
 		return result;
 	}
 	
-	private String readFile(File file) throws IOException {
-		FileInputStream stream = new FileInputStream(file);
-		try {
-			FileChannel fc = stream.getChannel();
-			MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0,
-					fc.size());
-			/* Instead of using default, pass in a decoder. */
-			return Charset.defaultCharset().decode(bb).toString();
-		} finally {
-			stream.close();
-		}
-	}
+
 		
 	/**
 	 * @param args
