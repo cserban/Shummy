@@ -6,5 +6,6 @@
 	<classpathentry kind="lib" path="libs/RiTaWN.jar"/>
 	<classpathentry kind="lib" path="libs/supportWN.jar"/>
 	<classpathentry kind="lib" path="libs/core.jar"/>
+	<classpathentry kind="lib" path="libs/stanford-postagger.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
