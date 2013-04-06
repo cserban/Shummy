@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import preprocessor.Sentence;
+import preprocessor.Word;
 
 public class StringParse {
 	
@@ -28,8 +29,7 @@ public class StringParse {
             int start = iterator.first();
             for (int end = iterator.next(); end != BreakIterator.DONE; start = end, end = iterator.next()) {
             	String tagged_sentence = content.substring(start,end);
-            	Sentence s = new Sentence(tagged_sentence);
-                splitSentences.add(s);
+                splitSentences.add(new Sentence(tagged_sentence));
             }
             sentences_per_file.put(filename, splitSentences);
         }

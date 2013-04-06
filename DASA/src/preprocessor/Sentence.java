@@ -3,32 +3,42 @@ package preprocessor;
 import java.util.ArrayList;
 
 public class Sentence {
-	String content;
-	ArrayList<Word> words;
+	public String content;
+	public ArrayList<Word> words;
 
 	public Sentence() {
-		this.words = new ArrayList<>();
+		words = new ArrayList<Word>();
 	}
 	/*
 	 * Example:
 	 * The_DT Fulton_NNP County_NNP Grand_NNP Jury_NNP said_VBD Friday_NNP an_DT investigation_NN  ._. 
 	 */
 	public Sentence(String tagged_content) {
+		System.out.println(tagged_content);
 		this.words = new ArrayList<>();
 		String[] tagged_words = tagged_content.split(" ");
 		for (String tagged_word : tagged_words) {
+			System.out.println(tagged_word);
 			if (tagged_word.split("_").length != 2)
-				System.out.println("Word not tagged: " + tagged_word);
+				System.out.println("weird tagged word: " + tagged_word);
 			else {
 				String str = tagged_word.split("_")[0];
 				String tag = tagged_word.split("_")[1];
-				this.words.add(new Word(str, tag));
+				addWord(new Word(str, tag));
 			}
 		}
+	}
+
+	public void addWord(Word word) {
+		this.words.add(word);
 	}
 	
 	@Override
 	public String toString() {
-		return this.content;
+		StringBuilder sb = new StringBuilder();
+		for (Word word : this.words) {
+			sb.append(word.str + " ");
+		}
+		return sb.toString();
 	}
 }

@@ -49,7 +49,5 @@ public class Preprocessor {
 	public static void main(String[] args) {
         Preprocessor preprocessor = new Preprocessor();
         preprocessor.preprocess();
-        
     }
-	
 }
