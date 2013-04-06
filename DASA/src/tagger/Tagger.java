@@ -10,7 +10,7 @@ import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 public class Tagger {
 	File in;
 	
-	Tagger (String path)
+	public Tagger (String path)
 	{
 		this.in = new File(path);
 	}
