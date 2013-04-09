@@ -34,6 +34,7 @@ public class Preprocessor {
 		Hashtable<String, String> tagged_content = tagSentences(corpus_filenames);
 		Hashtable<String, ArrayList<Sentence>> tagged_sentences = StringParse.splitInSentences(tagged_content);
 		Hashtable<String, ArrayList<Sentence>> clean_sentences = StringParse.removeStopwordsAndPunctuation(tagged_sentences);
+		addSynonims(clean_sentences);
 		System.out.println("Done preprocessing! :)");
 	}
 	
@@ -45,7 +46,20 @@ public class Preprocessor {
 		}
 		return tagged_sentences;
 	}
-	
+
+	@SuppressWarnings("unchecked")
+	public void addSynonims(Hashtable<String, ArrayList<Sentence>> sentences) {
+		// add synonims to all words in sentences
+		Iterator<?> it = sentences.entrySet().iterator();
+	    while (it.hasNext()) {
+	        @SuppressWarnings("rawtypes")
+			Map.Entry pairs = (Map.Entry)it.next();
+	        for (Sentence s : (ArrayList<Sentence>)pairs.getValue()) {
+	        	s.addSynonims();
+	        }
+	    }
+	}
+
 	// TODO: delete this main
 	public static void main(String[] args) {
         Preprocessor preprocessor = new Preprocessor();

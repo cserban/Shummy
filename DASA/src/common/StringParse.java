@@ -46,6 +46,7 @@ public class StringParse {
         while (it.hasNext()) {
 			Map.Entry pairs = (Map.Entry)it.next();
             String filename = (String)pairs.getKey();
+			@SuppressWarnings("unchecked")
 			ArrayList<Sentence> sentences = (ArrayList<Sentence>)pairs.getValue();
             ArrayList<Sentence> newSentences = new ArrayList<>();
             for (Sentence s : sentences) {
