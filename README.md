@@ -1,7 +1,8 @@
 Shummy
 ======
 
-### Preprocessing
+### * Preprocessing
+============
 
 #### The proprocessing consists of 4 major steps:
 1. First of all, all content from the corpus files are split into several sentences.
