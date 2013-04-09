@@ -1,10 +1,9 @@
 Shummy
 ======
 
-### * Preprocessing
-============
+### Preprocessing
 
-#### The proprocessing consists of 4 major steps:
+The proprocessing consists of 4 major steps:
 1. First of all, all content from the corpus files are split into several sentences.
 2. All words from these sentences are tagged using the Stanford Tagger. More details here: http://nlp.stanford.edu/software/tagger.shtml
 3. After tagging words, it is safe to remove all punctuation and stopwords. There are various lists of stopwords. When the project will extend, the list with the best results will be kept.
