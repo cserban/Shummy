@@ -1,4 +1,4 @@
-a) weather forcasting
+a) weather forecasting
 b) radio communication
 c) water pressure
 d) surveillance
