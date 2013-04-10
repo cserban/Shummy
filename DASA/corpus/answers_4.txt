@@ -1,0 +1,5 @@
+a) only by climbing stairs
+b) only by using the elevator
+c) you can choose both climbing stairs and using the elevator
+
+

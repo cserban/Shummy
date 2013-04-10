@@ -1,0 +1,6 @@
+a) weather forcasting
+b) radio communication
+c) water pressure
+d) surveillance
+
+
