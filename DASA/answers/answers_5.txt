@@ -1,5 +1,4 @@
-a) Paris
-b) France
-c) Europe
-d) world
-
+Paris
+France
+Europe
+world

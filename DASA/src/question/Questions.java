@@ -12,43 +12,42 @@ public class Questions {
 	ArrayList<Question> questions;
 
 	public Questions() {
+		File questionFile = new File(Constants.QUESTIONS_FILE);
+		ArrayList<String> answers_filenames = FileInOut.getFiles(new File(
+				Constants.ANSWERS_FOLDERNAME));
+
 		try {
-			File in = new File(Constants.QUESTIONS_FILE);
-			String content = FileInOut.readFile(in);
+			String content = FileInOut.readFile(questionFile);
+			questions = new ArrayList<>();
 			for (String question : content.split("\n"))
 				questions.add(new Question(question));
+			
+			for (int i = 0; i < answers_filenames.size(); i++) {
 
-			ArrayList<String> corpus_filenames = FileInOut.getFiles(new File(
-					Constants.ANSWERS_FOLDERNAME));
-			for (int i = 0; i < corpus_filenames.size(); i++) {
-
-				String answers = FileInOut.readFile(in);
+				File tmp = new File(answers_filenames.get(0).split("_")[0]+"_"+(i+1)+".txt");
+				String answers = FileInOut.readFile(tmp);
+				
 				for (String answer : answers.split("\n"))
 					questions.get(i).answers.add(answer);
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
-	public void classifier()
-	{
+
+	public void classifier() {
 		QuestionClassifier qc = new QuestionClassifier();
 		qc.train("question/question_5500.train");
-		// can be done for as many questions as you like
-		for (Question question : questions)
-		{
-			question.predictedAnswerClass = qc.test("NUM:other\t" + question.contant);
+		for (Question question : questions) {
+			question.predictedAnswerClass = qc.test("NUM:other\t"
+					+ question.contant);
 		}
 	}
-	
-	public void print()
-	{
-		for (Question question : questions)
-		{
+
+	public void print() {
+		for (Question question : questions) {
 			System.out.println(question);
 		}
 	}
-	
+
 }

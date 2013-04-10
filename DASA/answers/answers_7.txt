@@ -1,5 +1,3 @@
-a) the color of the tower
-b) the wind forces
-c) the total weight of the tower
-
-
+the color of the tower
+the wind forces
+the total weight of the tower

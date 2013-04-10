@@ -1,6 +1,4 @@
-a) one
-b) two
-c) three
-d) four
-
-
+one
+two
+three
+four

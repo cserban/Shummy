@@ -1,5 +1,3 @@
-a) 5 thousand
-b) 7 million
-c) 3 billion
-
-
+5 thousand
+7 million
+3 billion

@@ -1,5 +1,3 @@
-a) a doctor
-b) an engineer
-c) a painter
-
-
+a doctor
+an engineer
+a painter

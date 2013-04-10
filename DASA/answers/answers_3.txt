@@ -1,5 +1,3 @@
-a) supply an additional peak
-b) use separate colors of paint, from the darkest to the lightest
-c) the buildings nearby are very small
-
-
+supply an additional peak
+use separate colors of paint, from the darkest to the lightest
+the buildings nearby are very small
