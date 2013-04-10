@@ -17,6 +17,9 @@ public class Preprocessor {
 	File corpus_folder;
 	File stopwords_file;
 	
+	Hashtable<String, ArrayList<Sentence>> clean_sentences;
+	ArrayList<String> corpus_filenames;
+	
 	public Preprocessor() {
 		corpus_folder = new File(Constants.CORPUS_FOLDERNAME);
 	}
@@ -30,10 +33,10 @@ public class Preprocessor {
 	 * 		- saving the parsed graph from all tagged words
 	 */
 	public void preprocess() {
-		ArrayList<String> corpus_filenames = FileInOut.getFiles(corpus_folder);
+		corpus_filenames = FileInOut.getFiles(corpus_folder);
 		Hashtable<String, String> tagged_content = tagSentences(corpus_filenames);
 		Hashtable<String, ArrayList<Sentence>> tagged_sentences = StringParse.splitInSentences(tagged_content);
-		Hashtable<String, ArrayList<Sentence>> clean_sentences = StringParse.removeStopwordsAndPunctuation(tagged_sentences);
+		clean_sentences = StringParse.removeStopwordsAndPunctuation(tagged_sentences);
 		addSynonims(clean_sentences);
 		System.out.println("Done preprocessing! :)");
 	}
@@ -59,10 +62,23 @@ public class Preprocessor {
 	        }
 	    }
 	}
+	
+	public void printSentences()
+	{
+        for (String fileName:corpus_filenames)
+        {
+        	for (Sentence sentence:clean_sentences.get(fileName))
+        	{
+        		System.out.println(sentence);
+        	}
+        }
+	}
 
 	// TODO: delete this main
 	public static void main(String[] args) {
         Preprocessor preprocessor = new Preprocessor();
         preprocessor.preprocess();
+        preprocessor.printSentences();
+
     }
 }
