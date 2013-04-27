@@ -14,6 +14,7 @@ import tagger.Tagger;
 import common.Constants;
 import common.FileInOut;
 import common.StringParse;
+import common.ReadXMLFile;
 
 import edu.stanford.nlp.dcoref.CorefChain;
 import edu.stanford.nlp.dcoref.CorefCoreAnnotations.CorefChainAnnotation;
