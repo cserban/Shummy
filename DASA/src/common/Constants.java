@@ -2,8 +2,12 @@ package common;
 
 public class Constants {
 	public static String CORPUS_FOLDERNAME = "corpus";
-	public static String QUESTIONS_FILE = "questions/questions.txt";
 	public static String ANSWERS_FOLDERNAME = "answers";
+	public static String QUESTIONS_FILE = "questions/questions.txt";
+
+	public static String QA4MRE_FOLDER = "qa4mre/";
+	public static String QA4MRE_FILE = QA4MRE_FOLDER + "data.txt";
+
 	public static int MAX_SYNONIMS = 100;
 
 	// TODO (Diana): Try other list of stopwords.
