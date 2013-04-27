@@ -20,14 +20,9 @@ public class Tagger {
 		MaxentTagger tagger = null;
 		String result = new String ();
 		try {
-			tagger = new MaxentTagger(
-			                "models/english-bidirectional-distsim.tagger");
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			tagger = new MaxentTagger("models/english-bidirectional-distsim.tagger");
+		}
+		finally {
 		}
 		try {
 			result = tagger.tagString(FileInOut.readFile(this.in));
