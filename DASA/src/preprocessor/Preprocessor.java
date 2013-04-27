@@ -95,7 +95,7 @@ public class Preprocessor {
         }
     }
 
-    public static void coref() {
+    public void stanfordPreprocess() {
         Properties props = new Properties();
         props.put("annotators", "tokenize, ssplit, pos, lemma, ner, parse, dcoref");
         StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
@@ -143,10 +143,10 @@ public class Preprocessor {
 
     // TODO: delete this main
     public static void main(String[] args) {
-        ReadXMLFile.read();
+        // ReadXMLFile.read();
         Preprocessor preprocessor = new Preprocessor();
-        preprocessor.preprocess();
-        preprocessor.printSentences();
-        coref();
+        // preprocessor.preprocess();
+        // preprocessor.printSentences();
+        preprocessor.stanfordPreprocess();
     }
 }
