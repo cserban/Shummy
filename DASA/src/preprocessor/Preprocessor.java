@@ -2,18 +2,12 @@ package preprocessor;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import tagger.Tagger;
-
 import common.Constants;
 import common.FileInOut;
-import common.StringParse;
 
 import edu.stanford.nlp.dcoref.CorefChain;
 import edu.stanford.nlp.dcoref.CorefCoreAnnotations.CorefChainAnnotation;
@@ -34,66 +28,10 @@ import edu.stanford.nlp.util.CoreMap;
 
 public class Preprocessor {
 
-    File corpus_folder;
-    File stopwords_file;
-
-    Hashtable<String, ArrayList<Sentence>> clean_sentences;
-    ArrayList<String> corpus_filenames;
     public DependencyGraph dependencyGraph;
 
     public Preprocessor() {
-        corpus_folder = new File(Constants.CORPUS_FOLDERNAME);
         dependencyGraph = new DependencyGraph();
-    }
-
-    /*
-     * Preprocessing includes:
-     *         - splitting all corpus in sentences, group by files
-     *         - tagging all words using Stanford Tagger
-     *         - removing punctuation ?
-     *         - removing all stopwords
-     *         - saving the parsed graph from all tagged words
-     */
-    public void preprocess() {
-        corpus_filenames = FileInOut.getFiles(corpus_folder);
-        Hashtable<String, String> tagged_content = tagSentences(corpus_filenames);
-        Hashtable<String, ArrayList<Sentence>> tagged_sentences = StringParse.splitInSentences(tagged_content);
-        clean_sentences = StringParse.removeStopwordsAndPunctuation(tagged_sentences);
-        addSynonims(clean_sentences);
-        System.out.println("Done preprocessing! :)");
-    }
-
-    public Hashtable<String, String> tagSentences(ArrayList<String> filenames) {
-        Hashtable<String, String> tagged_sentences = new Hashtable<>();
-        for (String filename : filenames) {
-            Tagger tagger = new Tagger(filename);
-            tagged_sentences.put(filename, tagger.addTags());
-        }
-        return tagged_sentences;
-    }
-
-    @SuppressWarnings("unchecked")
-    public void addSynonims(Hashtable<String, ArrayList<Sentence>> sentences) {
-        // add synonims to all words in sentences
-        Iterator<?> it = sentences.entrySet().iterator();
-        while (it.hasNext()) {
-            @SuppressWarnings("rawtypes")
-            Map.Entry pairs = (Map.Entry)it.next();
-            for (Sentence s : (ArrayList<Sentence>)pairs.getValue()) {
-                s.addSynonims();
-            }
-        }
-    }
-
-    public void printSentences()
-    {
-        for (String fileName:corpus_filenames)
-        {
-            for (Sentence sentence:clean_sentences.get(fileName))
-            {
-                System.out.println(sentence);
-            }
-        }
     }
 
     public void stanfordPreprocess() {
@@ -127,15 +65,6 @@ public class Preprocessor {
                 String pos = token.get(PartOfSpeechAnnotation.class);
                 // this is the NER label of the token
                 String ne = token.get(NamedEntityTagAnnotation.class);
-                //System.out.print(ne + " ");
-                /*if (!ne.equals("O"))
-                {
-                    System.out.print(word + " ");
-                    System.out.print(ne + " ");
-                    System.out.println();
-                }*/
-
-                
             }
             
             // this is the parse tree of the current sentence
@@ -145,49 +74,31 @@ public class Preprocessor {
 
             // this is the Stanford dependency graph of the current sentence
             SemanticGraph dependencies = sentence.get(CollapsedCCProcessedDependenciesAnnotation.class);
-            //System.out.println("for " + sentence);
             dependencyGraph.addSentence(dependencies, sentences.indexOf(sentence));
-            //System.out.println( sentences.indexOf(sentence)+ " "+sentence  );
-
-            //System.out.println("TreeAnnotation ");
-            //printTree(tree,0);
-            // This is the coreference link graph
-            // Each chain stores a set of mentions that link to each other,
-            // along with a method for getting the most representative mention
-            // Both sentence and token offsets start at 1!
-            
-            
         }
+        // This is the coreference link graph
+        // Each chain stores a set of mentions that link to each other,
+        // along with a method for getting the most representative mention
+        // Both sentence and token offsets start at 1!
         Map<Integer, CorefChain> graph = document.get(CorefChainAnnotation.class);
-        //System.out.println("");
     }
     
     void printTree(Tree tree, int lev)
     {
     	for (int i =0;i<lev;i++)
-    	{
     		System.out.print(" ");
-    	}
     	System.out.println(tree.value());
     	for (Tree copil : tree.children())
-    	{
     		printTree(copil,lev+1);
-    	}
     }
 
     // TODO: delete this main
     public static void main(String[] args) {
         // ReadXMLFile.read();
         Preprocessor preprocessor = new Preprocessor();
-        // preprocessor.preprocess();
-        // preprocessor.printSentences();
         preprocessor.stanfordPreprocess();
         System.out.println("--------------------------------------------------");
         for (DependencyNode curentNode : preprocessor.dependencyGraph.graph)
-        {
 			System.out.println(curentNode.value.value());
-        }
-        
-		
     }
 }

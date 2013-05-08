@@ -15,18 +15,11 @@ public class DependencyGraph {
 	void addSentence(SemanticGraph dependencies, int sentenceId) {
 		//dependencies.prettyPrint();
 		if (dependencies.getRoots().size() != 1) {
-			System.err
-					.println("dependencies.getRoots().size() != 1 !!!!!!!!!!!!!!!!!!"
-							+ sentenceId
-							+ " and it's"
-							+ dependencies.getRoots().size());
-			// System.exit(1);
+			System.err.println("Sentence " + sentenceId + "has " +
+								dependencies.getRoots().size() + "roots !!!");
 		} else {
-
 			ArrayList<DependencyNode> tmpList = new ArrayList<>();
 			IndexedWord root = dependencies.getFirstRoot();
-			root.value();
-			dependencies.getChildList(root);
 			generateGraph(dependencies, root, tmpList, sentenceId);
 
 			System.out.println();
@@ -41,19 +34,16 @@ public class DependencyGraph {
 						// +dependencies.getEdge(curentNode.value,
 						// possibleChildNode.value).toString());
 						curentNode.neighbours.put(
-								dependencies.getEdge(curentNode.value,
-										possibleChildNode.value).toString(),
-								possibleChildNode);
+							dependencies.getEdge(curentNode.value,
+								possibleChildNode.value).toString(),
+							possibleChildNode);
 					}
 				}
 			}
 			for (DependencyNode curentNode : tmpList){
 				if (curentNode.value.equals(root))
-				{
 					graph.add(curentNode);
-				}
 			}
-			
 		}
 	}
 
