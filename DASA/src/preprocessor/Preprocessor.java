@@ -14,7 +14,6 @@ import tagger.Tagger;
 import common.Constants;
 import common.FileInOut;
 import common.StringParse;
-import common.ReadXMLFile;
 
 import edu.stanford.nlp.dcoref.CorefChain;
 import edu.stanford.nlp.dcoref.CorefCoreAnnotations.CorefChainAnnotation;
@@ -40,9 +39,11 @@ public class Preprocessor {
 
     Hashtable<String, ArrayList<Sentence>> clean_sentences;
     ArrayList<String> corpus_filenames;
+    public DependencyGraph dependencyGraph;
 
     public Preprocessor() {
         corpus_folder = new File(Constants.CORPUS_FOLDERNAME);
+        dependencyGraph = new DependencyGraph();
     }
 
     /*
@@ -126,19 +127,52 @@ public class Preprocessor {
                 String pos = token.get(PartOfSpeechAnnotation.class);
                 // this is the NER label of the token
                 String ne = token.get(NamedEntityTagAnnotation.class);
+                //System.out.print(ne + " ");
+                /*if (!ne.equals("O"))
+                {
+                    System.out.print(word + " ");
+                    System.out.print(ne + " ");
+                    System.out.println();
+                }*/
+
+                
             }
+            
             // this is the parse tree of the current sentence
             Tree tree = sentence.get(TreeAnnotation.class);
+            //System.out.println("TreeAnnotation ");
+            //printTree(tree,0);
 
             // this is the Stanford dependency graph of the current sentence
             SemanticGraph dependencies = sentence.get(CollapsedCCProcessedDependenciesAnnotation.class);
+            //System.out.println("for " + sentence);
+            dependencyGraph.addSentence(dependencies, sentences.indexOf(sentence));
+            //System.out.println( sentences.indexOf(sentence)+ " "+sentence  );
 
+            //System.out.println("TreeAnnotation ");
+            //printTree(tree,0);
             // This is the coreference link graph
             // Each chain stores a set of mentions that link to each other,
             // along with a method for getting the most representative mention
             // Both sentence and token offsets start at 1!
-            Map<Integer, CorefChain> graph = document.get(CorefChainAnnotation.class);
+            
+            
         }
+        Map<Integer, CorefChain> graph = document.get(CorefChainAnnotation.class);
+        //System.out.println("");
+    }
+    
+    void printTree(Tree tree, int lev)
+    {
+    	for (int i =0;i<lev;i++)
+    	{
+    		System.out.print(" ");
+    	}
+    	System.out.println(tree.value());
+    	for (Tree copil : tree.children())
+    	{
+    		printTree(copil,lev+1);
+    	}
     }
 
     // TODO: delete this main
@@ -148,5 +182,12 @@ public class Preprocessor {
         // preprocessor.preprocess();
         // preprocessor.printSentences();
         preprocessor.stanfordPreprocess();
+        System.out.println("--------------------------------------------------");
+        for (DependencyNode curentNode : preprocessor.dependencyGraph.graph)
+        {
+			System.out.println(curentNode.value.value());
+        }
+        
+		
     }
 }
