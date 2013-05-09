@@ -7,9 +7,8 @@ public class Main {
         Questions questions = new Questions();
         questions.classifier();
         questions.print();
-        
+
         Preprocessor preprocessor = new Preprocessor();
-        preprocessor.preprocess();
-        preprocessor.printSentences();
+        preprocessor.stanfordPreprocess();
 	}
 }
