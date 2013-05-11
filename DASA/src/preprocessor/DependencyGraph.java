@@ -27,14 +27,9 @@ public class DependencyGraph {
 					if (!possibleChildNode.equals(curentNode)
 							&& dependencies.getChildList(curentNode.value)
 									.contains(possibleChildNode.value)) {
-						// System.out.println(curentNode.value.value() + " to "
-						// + possibleChildNode.value + " with edge "
-						// +dependencies.getEdge(curentNode.value,
-						// possibleChildNode.value).toString());
-						curentNode.neighbours.put(
-							dependencies.getEdge(curentNode.value,
-								possibleChildNode.value).toString(),
-							possibleChildNode);
+						curentNode.neighbours.put(dependencies.getEdge(curentNode.value,possibleChildNode.value).toString(),possibleChildNode);
+						if (!possibleChildNode.parents.contains(curentNode))
+							possibleChildNode.parents.add(curentNode);
 					}
 				}
 			}
