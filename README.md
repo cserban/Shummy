@@ -1,16 +1,9 @@
 Shummy
 ======
 
-### Preprocessing
+## Preprocessing
 
-##### The proprocessing consists of 4 major steps:
-1. First of all, all content from the corpus files are split into several sentences. A Sentence is seen as a list of Words, whereas a Word is a tuple of content, POS tag and a list of synonims. Further development will also entail the stem and lemma for the word. 
-2. All words from these sentences are tagged using the Stanford Tagger. More details here: http://nlp.stanford.edu/software/tagger.shtml
-3. After tagging words, it is safe to remove all punctuation and stopwords. There are various lists of stopwords. According to the provided results, only a list will be chosen.
-4. Add synonims to each word in these sentences. In order to do that, the lexical database for English language WordNet is used. More details here: http://www.rednoise.org/rita/wordnet/documentation/
-
-
-##### Example:
+#### 1. standfordcorenlp.jar details:
 Let's take for example the first sentence:
   `The white-haired old man was sitting in his favorite chair, holding a thick book and rubbing his tired eyes.`
 
@@ -62,3 +55,17 @@ We can also get the parse tree of the sentence:
 }
 ```
 
+#### 2. Preprocessor usage:
+
+Assume you have a sentence (just like the one above). In order to obtain the dependency graph, you just have to do the following:
+```java
+String sentences = "The white-haired old man was sitting in his favorite chair, holding a thick book and rubbing his tired eyes."
+Preprocessor preprocessor = new Preprocessor();
+preprocessor.stanfordPreprocess(sentences);
+depGraph = preprocessor.dependencyGraph;
+
+// if you just want to obtain the dependecy graph of the hole corpus, use:
+preprocessor.stanfordPreprocess(null);
+depGraph = preprocessor.dependencyGraph;
+```
+Each node of the dependency graph has its lemValue and posTag fields filled after preprocessing.
