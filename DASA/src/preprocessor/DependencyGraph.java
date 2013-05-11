@@ -22,8 +22,6 @@ public class DependencyGraph {
 			IndexedWord root = dependencies.getFirstRoot();
 			generateGraph(dependencies, root, tmpList, sentenceId);
 
-			System.out.println();
-
 			for (DependencyNode curentNode : tmpList) {
 				for (DependencyNode possibleChildNode : tmpList) {
 					if (!possibleChildNode.equals(curentNode)
@@ -59,6 +57,8 @@ public class DependencyGraph {
 		}
 		if (!exists) {
 			curentNode = new DependencyNode(curentWord, sentenceId);
+			curentNode.lemValue = curentWord.lemma();
+			curentNode.posTag = curentWord.tag();
 			tmpList.add(curentNode);
 		}
 
@@ -67,4 +67,5 @@ public class DependencyGraph {
 				generateGraph(dependencies, child, tmpList, sentenceId);
 		}
 	}
+	
 }

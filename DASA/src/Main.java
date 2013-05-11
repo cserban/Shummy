@@ -9,6 +9,6 @@ public class Main {
         questions.print();
 
         Preprocessor preprocessor = new Preprocessor();
-        preprocessor.stanfordPreprocess();
+        preprocessor.stanfordPreprocess(null);
 	}
 }

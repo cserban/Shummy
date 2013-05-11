@@ -34,16 +34,18 @@ public class Preprocessor {
         dependencyGraph = new DependencyGraph();
     }
 
-    public void stanfordPreprocess() {
+    public void stanfordPreprocess(String corpus) {
         Properties props = new Properties();
         props.put("annotators", "tokenize, ssplit, pos, lemma, ner, parse, dcoref");
         StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
 
-        String corpus = "";
-        try {
-            corpus = FileInOut.readFile(new File(Constants.QA4MRE_FOLDER + "docs/1.txt"));
+        if (corpus == null) {
+	        corpus = "";
+	        try {
+	            corpus = FileInOut.readFile(new File(Constants.QA4MRE_FOLDER + "docs/1.txt"));
+	        }
+	        catch (IOException e) {}
         }
-        catch (IOException e) {}
 
         // create an empty Annotation just with the given text
         Annotation document = new Annotation(corpus);
@@ -96,9 +98,11 @@ public class Preprocessor {
     public static void main(String[] args) {
         // ReadXMLFile.read();
         Preprocessor preprocessor = new Preprocessor();
-        preprocessor.stanfordPreprocess();
+        preprocessor.stanfordPreprocess(null);
         System.out.println("--------------------------------------------------");
         for (DependencyNode curentNode : preprocessor.dependencyGraph.graph)
-			System.out.println(curentNode.value.value());
+			System.out.println(curentNode.sentenceId + ": " +
+				curentNode.value.value() + " -> " + curentNode.lemValue +
+				" (" + curentNode.posTag + ")");
     }
 }
