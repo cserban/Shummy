@@ -158,6 +158,10 @@ public class QuestionClassifier {
 		trained = true;
 	}
 
+	public String testQuestion(String question) {
+		String line = "ceva\t" + question;
+		return test(line);
+	}
 	public String test(String line) {
 		if (trained) {
 			Datum<String, String> d = dataColumnClassifier.makeDatumFromLine(
