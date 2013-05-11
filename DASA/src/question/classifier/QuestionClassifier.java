@@ -18,6 +18,10 @@ public class QuestionClassifier {
 	private static boolean computeAccuracy = true;
 	private static int total = 0;
 
+	public QuestionClassifier() {
+		train("question/question_5500.train");
+	}
+
 	private static void oldMain() {
 		ColumnDataClassifier cdc = new ColumnDataClassifier(
 				"question/question.prop");
@@ -162,6 +166,7 @@ public class QuestionClassifier {
 		String line = "ceva\t" + question;
 		return test(line);
 	}
+
 	public String test(String line) {
 		if (trained) {
 			Datum<String, String> d = dataColumnClassifier.makeDatumFromLine(
