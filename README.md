@@ -63,8 +63,10 @@ String sentences = "The white-haired old man was sitting in his favorite chair, 
 Preprocessor preprocessor = new Preprocessor();
 preprocessor.stanfordPreprocess(sentences);
 depGraph = preprocessor.dependencyGraph;
-
-// if you just want to obtain the dependecy graph of the hole corpus, use:
+```
+If you just want to obtain the dependecy graph of the hole corpus, use:
+```java
+Preprocessor preprocessor = new Preprocessor();
 preprocessor.stanfordPreprocess(null);
 depGraph = preprocessor.dependencyGraph;
 ```
