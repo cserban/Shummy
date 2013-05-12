@@ -64,6 +64,7 @@ public class DependencyGraph {
 			curentNode = new DependencyNode(curentWord, sentenceId);
 			curentNode.lemValue = curentWord.lemma();
 			curentNode.posTag = curentWord.tag();
+			curentNode.ner = curentWord.ner();
 			tmpList.add(curentNode);
 		}
 
