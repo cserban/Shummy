@@ -2,8 +2,8 @@ package common;
 
 public class Constants {
 	public static String CORPUS_FOLDERNAME = "corpus";
-	public static String ANSWERS_FOLDERNAME = "answers";
-	public static String QUESTIONS_FILE = "questions/questions.txt";
+	public static String ANSWERS_FOLDERNAME = "qa4mre/answers";
+	public static String QUESTIONS_FOLDERNAME = "qa4mre/questions";
 
 	public static String QA4MRE_FOLDER = "qa4mre/";
 	public static String QA4MRE_FILE = QA4MRE_FOLDER + "data.txt";

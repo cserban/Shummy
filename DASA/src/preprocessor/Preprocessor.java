@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 
 import common.Constants;
@@ -83,6 +84,12 @@ public class Preprocessor {
         // along with a method for getting the most representative mention
         // Both sentence and token offsets start at 1!
         Map<Integer, CorefChain> graph = document.get(CorefChainAnnotation.class);
+        for (Entry<Integer, CorefChain> entry : graph.entrySet()) {
+        		System.out.println(entry.getKey());
+        		CorefChain tmp = entry.getValue();
+        	}
+
+
     }
     
     void printTree(Tree tree, int lev)

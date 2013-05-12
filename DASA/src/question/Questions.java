@@ -12,35 +12,37 @@ public class Questions {
 	ArrayList<Question> questions;
 
 	public Questions() {
-		File questionFile = new File(Constants.QUESTIONS_FILE);
-		ArrayList<String> answers_filenames = FileInOut.getFiles(new File(
-				Constants.ANSWERS_FOLDERNAME));
+		//File questionFiles = new File(Constants.QUESTIONS_FILE);
+		ArrayList<String> questionFilenames = FileInOut.getFiles(new File(Constants.QUESTIONS_FOLDERNAME));
+		ArrayList<String> answersFilenames = FileInOut.getFiles(new File(Constants.ANSWERS_FOLDERNAME));
 
 		try {
-			String content = FileInOut.readFile(questionFile);
 			questions = new ArrayList<>();
-			for (String question : content.split("\n"))
-				questions.add(new Question(question));
 			
-			for (int i = 0; i < answers_filenames.size(); i++) {
-
-				File tmp = new File(answers_filenames.get(0).split("_")[0]+"_"+(i+1)+".txt");
-				String answers = FileInOut.readFile(tmp);
-				
-				for (String answer : answers.split("\n"))
-					questions.get(i).answers.add(answer);
+			for (String questionFilename : questionFilenames) {
+				File tmp = new File(questionFilename);
+				String question = FileInOut.readFile(tmp);
+				questions.add(new Question(question));
 			}
+
+			
+			for (String answerFilename : answersFilenames) {
+				File tmp = new File(answerFilename);
+				String answer = FileInOut.readFile(tmp);
+				questions.get(Integer.parseInt(tmp.getName().split("_")[0])-1).answers.add(answer);
+				}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		classifier();
 	}
 
 	public void classifier() {
 		QuestionClassifier qc = new QuestionClassifier();
-		qc.train("question/question_5500.train");
 		for (Question question : questions) {
-			question.predictedAnswerClass = qc.test("NUM:other\t"
-					+ question.contant);
+			question.predictedAnswerClass = qc.testQuestion(question.contant);
 		}
 	}
 
