@@ -27,7 +27,17 @@ public class DependencyGraph {
 					if (!possibleChildNode.equals(curentNode)
 							&& dependencies.getChildList(curentNode.value)
 									.contains(possibleChildNode.value)) {
-						curentNode.neighbours.put(dependencies.getEdge(curentNode.value,possibleChildNode.value).toString(),possibleChildNode);
+						
+						if (curentNode.neighbours.get(dependencies.getEdge(curentNode.value,possibleChildNode.value).toString()) == null)
+						{
+							ArrayList<DependencyNode> nodeList = new ArrayList<>();
+							nodeList.add(possibleChildNode);
+							curentNode.neighbours.put(dependencies.getEdge(curentNode.value,possibleChildNode.value).toString(),nodeList);
+						}
+						else
+						{
+							curentNode.neighbours.get(dependencies.getEdge(curentNode.value,possibleChildNode.value).toString()).add(possibleChildNode);
+						}
 						if (!possibleChildNode.parents.contains(curentNode))
 							possibleChildNode.parents.add(curentNode);
 					}

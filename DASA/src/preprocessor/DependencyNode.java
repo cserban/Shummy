@@ -7,7 +7,7 @@ import edu.stanford.nlp.ling.IndexedWord;
 
 public class DependencyNode {
 	 public int sentenceId;
-	 public Hashtable<String, DependencyNode> neighbours;
+	 public Hashtable<String, ArrayList<DependencyNode>> neighbours;
 	 public ArrayList<DependencyNode> parents;
 	 public ArrayList<DependencyNode> link;
 	 public IndexedWord value;
@@ -19,7 +19,7 @@ public class DependencyNode {
 	 public DependencyNode(IndexedWord value,int id)
 	 {
 		 this.sentenceId = id;
-		 this.neighbours = new Hashtable<String, DependencyNode>();
+		 this.neighbours = new Hashtable<String, ArrayList<DependencyNode>>();
 		 this.parents = new ArrayList<>();
 		 this.link = new ArrayList<>();
 		 this.value = value;
