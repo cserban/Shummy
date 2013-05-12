@@ -18,6 +18,10 @@ public class QuestionClassifier {
 	private static boolean computeAccuracy = true;
 	private static int total = 0;
 
+	public QuestionClassifier() {
+		train("question/question_5500.train");
+	}
+
 	private static void oldMain() {
 		ColumnDataClassifier cdc = new ColumnDataClassifier(
 				"question/question.prop");
@@ -142,11 +146,11 @@ public class QuestionClassifier {
 
 	public static void main(String[] args) {
 		QuestionClassifier qc = new QuestionClassifier();
-		// only once!!
-		qc.train("question/question_5500.train");
-		// can be done for as many questions as you like
 		String predictedAnswerClass = qc
-				.test("NUM:other\tWhat is the life expectancy for crickets ?");
+				.testQuestion("What is the life expectancy for crickets ?");
+		System.out.println(predictedAnswerClass);
+		predictedAnswerClass = qc
+				.testQuestion("Where does Nicolas Vaaali live ?");
 		System.out.println(predictedAnswerClass);
 	}
 
@@ -156,6 +160,35 @@ public class QuestionClassifier {
 		classifier = dataColumnClassifier.makeClassifier(dataColumnClassifier
 				.readTrainingExamples(trainFileName));
 		trained = true;
+	}
+
+	public String testQuestion(String question) {
+		String line = "ceva\t" + question;
+		return mapQuestionClass(test(line));
+	}
+
+	public static String mapQuestionClass(String questionClass) {
+		if(questionClass.startsWith("LOC"))
+			return "LOCATION";
+		if(questionClass.equals(Topology.NUM_date)) {
+			return "DATE";
+		}
+		if(questionClass.equals(Topology.HUM_gr)) {
+			return "ORGANIZATION";
+		}
+		if(questionClass.startsWith("HUM")) {
+			return "PERSON";
+		}
+		if(questionClass.equals(Topology.NUM_ord)) {
+			return "ORDINAL";
+		}
+		if(questionClass.equals(Topology.NUM_period)) {
+			return "DURATION";
+		}
+		if(questionClass.startsWith("NUM"))
+			return "NUMBER";
+		//TODO: SET????
+		return "MISC";
 	}
 
 	public String test(String line) {
