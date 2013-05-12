@@ -93,7 +93,6 @@ public class Preprocessor {
         // Both sentence and token offsets start at 1!
         Map<Integer, CorefChain> graph = document.get(CorefChainAnnotation.class);
         for (Entry<Integer, CorefChain> entry : graph.entrySet()) {
-        		System.out.println(entry.getKey());
         		CorefChain tmp = entry.getValue();
         	}
 
