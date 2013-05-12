@@ -13,6 +13,8 @@ public class DependencyNode {
 	 public IndexedWord value;
 	 public String lemValue;
 	 public String posTag;
+	 public String ner;
+
 	 // get all synonyms using: WordNetInterface.getAllSynonymsForPOS(str, pos_tag, Constants.MAX_SYNONIMS);
 	 public ArrayList<String> synonims;
 	 

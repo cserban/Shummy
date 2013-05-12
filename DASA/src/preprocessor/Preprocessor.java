@@ -2,10 +2,17 @@ package preprocessor;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.Queue;
 
 import common.Constants;
 import common.FileInOut;
@@ -79,6 +86,7 @@ public class Preprocessor {
             SemanticGraph dependencies = sentence.get(CollapsedCCProcessedDependenciesAnnotation.class);
             dependencyGraph.addSentence(dependencies, sentences.indexOf(sentence));
         }
+        dependencyGraph.setNers();
         // This is the coreference link graph
         // Each chain stores a set of mentions that link to each other,
         // along with a method for getting the most representative mention
@@ -101,6 +109,33 @@ public class Preprocessor {
     		printTree(copil,lev+1);
     }
 
+    /**
+	 * @brief performs BFS starting with root node and adds nodes related to root in graph
+	 * @param rootNode - root node for a sentence
+	 * @return ArrayList<DependencyNode> : contains all nodes for a sentence
+	 */
+	public static ArrayList<DependencyNode> BFS (DependencyNode rootNode){
+	    ArrayList <DependencyNode> nodesInGraph = new ArrayList<DependencyNode>();
+	    System.out.println("\n");
+	    Queue<BFSNode> q = new LinkedList<BFSNode>();
+	    q.add(new BFSNode(rootNode, false));
+
+	    System.out.print(" " + rootNode.value.value());
+	    while (q.isEmpty() == false){
+	        BFSNode v = q.poll();
+	        for(BFSNode newNode : v.neighbours){
+	            if(newNode.visited == false){
+	                q.add(newNode);
+	            }
+	        }
+	        v.visited = true;
+	        nodesInGraph.add(v.n);
+	        System.out.println(" " + v.n.value.value() + " v:" + v.n.neighbours.size());
+	    }
+	    System.out.println("\n");
+	    return nodesInGraph;
+	}
+
     // TODO: delete this main
     public static void main(String[] args) {
         // ReadXMLFile.read();
@@ -108,8 +143,26 @@ public class Preprocessor {
         preprocessor.stanfordPreprocess(null);
         System.out.println("--------------------------------------------------");
         for (DependencyNode curentNode : preprocessor.dependencyGraph.graph)
+        {
+            /*
 			System.out.println(curentNode.sentenceId + ": " +
 				curentNode.value.value() + " -> " + curentNode.lemValue +
 				" (" + curentNode.posTag + ")");
+            */
+            BFS(curentNode);
+        }
+        System.out.println("--------------------------------------------------");
+        // print NER list of all root nodes
+        Hashtable<DependencyNode, HashSet<String>> table = preprocessor.dependencyGraph.ners;
+        Enumeration<DependencyNode> enumKey = table.keys();
+        while(enumKey.hasMoreElements()) {
+            DependencyNode key = enumKey.nextElement();
+            System.out.print(key.value + ": ");
+            HashSet<String> val = table.get(key);
+            Iterator<String> it = val.iterator();
+            while(it.hasNext())
+                System.out.print(it.next() + ", ");
+            System.out.println();
+        }
     }
 }
