@@ -36,10 +36,15 @@ import edu.stanford.nlp.util.CoreMap;
 
 public class Preprocessor {
 
+	
+	
     public DependencyGraph dependencyGraph;
-
+    public ArrayList<SentenceWithTag> sentencesFromCorpus;
+    public static  ArrayList<ArrayList<DependencyNode>> subgraphs;
     public Preprocessor() {
-        dependencyGraph = new DependencyGraph();
+        this.dependencyGraph = new DependencyGraph();
+        this.sentencesFromCorpus = new ArrayList<SentenceWithTag>();
+        this.subgraphs = new ArrayList<ArrayList<DependencyNode>>();
     }
 
     public void stanfordPreprocess(String corpus) {
@@ -67,6 +72,8 @@ public class Preprocessor {
 
         for(CoreMap sentence: sentences) {
             // traversing the words in the current sentence
+        	SentenceWithTag newTaggedSentence = new SentenceWithTag();
+        	int poz = 0;
             // a CoreLabel is a CoreMap with additional token-specific methods
             for (CoreLabel token: sentence.get(TokensAnnotation.class)) {
                 // this is the text of the token
@@ -75,7 +82,14 @@ public class Preprocessor {
                 String pos = token.get(PartOfSpeechAnnotation.class);
                 // this is the NER label of the token
                 String ne = token.get(NamedEntityTagAnnotation.class);
+             // this is the list with all sentences tagged
+                WordWithTag w = new WordWithTag(word, pos, ne, poz);
+                // word position in sentence
+                poz++;
+                // add word in sentence
+                newTaggedSentence.add(w);
             }
+            this.sentencesFromCorpus.add (newTaggedSentence);
             
             // this is the parse tree of the current sentence
             Tree tree = sentence.get(TreeAnnotation.class);
@@ -143,13 +157,11 @@ public class Preprocessor {
         System.out.println("--------------------------------------------------");
         for (DependencyNode curentNode : preprocessor.dependencyGraph.graph)
         {
-            /*
-			System.out.println(curentNode.sentenceId + ": " +
-				curentNode.value.value() + " -> " + curentNode.lemValue +
-				" (" + curentNode.posTag + ")");
-            */
-            BFS(curentNode);
+            subgraphs.add(BFS(curentNode));
         }
+        ComparisonFunctions comp = new ComparisonFunctions(subgraphs.get(0), subgraphs.get(1));
+        comp.getResemblanceScoreBetweenGraphs();
+        
         System.out.println("--------------------------------------------------");
         // print NER list of all root nodes
         Hashtable<DependencyNode, HashSet<String>> table = preprocessor.dependencyGraph.ners;
@@ -163,5 +175,111 @@ public class Preprocessor {
                 System.out.print(it.next() + ", ");
             System.out.println();
         }
+    }
+    
+    public class WordWithTag{
+    	public String word;
+    	public String postag;
+    	public String ner;
+    	public int poz;
+    	
+    	/**
+    	 * @brief constructs a tagged word
+    	 * @param word - string value of the word
+    	 * @param postag - tag for word
+    	 * @param ner - ner for word
+    	 * @param poz - position in sentence
+    	 */
+    	public WordWithTag(String word, String postag, String ner, int poz){
+    		this.word = word;
+    		this.postag = postag;
+    		this.ner = ner;
+    		this.poz = poz;
+    	}
+    	
+    	@Override
+		public String toString(){
+    		return this.word + " " + this.postag + " " + this.ner + " " + this.poz;
+    	}
+    }
+	
+	public class SentenceWithTag{
+    	/**
+    	 * list that contains all words in a sentence
+    	 */
+    	public ArrayList<WordWithTag> wordsList;
+    	
+    	public SentenceWithTag()
+    	{
+    		wordsList = new ArrayList<WordWithTag>();
+    	}
+    	
+    	/**
+    	 * @brief adds a tagged word in arraylist
+    	 * @param w
+    	 */
+    	public void add (WordWithTag w){
+    		wordsList.add(w);
+    	}
+    	
+    	/**
+    	 * @brief Returns an arraylist that contains the positions of w in sentence
+    	 * @param w - Searched word
+    	 * @return ArrayList<Integer> 
+    	 */
+    	public ArrayList<Integer> searchForWord(WordWithTag w){
+    		ArrayList <Integer> positionsOfWordInSentence = new ArrayList<Integer>();
+     		for (int i = 0; i < wordsList.size(); i++){
+    			if (wordsList.get(i).word.equals(w.word) &&
+    					wordsList.get(i).postag.equals(w.postag)){
+    				positionsOfWordInSentence.add(wordsList.get(i).poz);
+    			}
+     		}
+     		return positionsOfWordInSentence;
+    	}
+    	
+    	/**
+    	 * @brief function that returns the max frequency of a word in the sentence
+    	 * @return float : maxfrequency
+    	 */
+    	public double getMaxWordFrequency(){
+    		double maxfrequency = 0;
+    		int max = 0;
+    		for (int i = 0; i < this.wordsList.size(); i++){
+    			int size = (searchForWord(this.wordsList.get(i))).size();
+    			if (max < size)
+    				max  = size;
+    			
+    		}
+    		maxfrequency = ((double)max)/this.wordsList.size();
+    		return maxfrequency;
+    	}
+    	
+    	/**
+    	 * @brief returns true if the word is contained in sentece, false otherwise
+    	 * @param w - searched word
+    	 * @return true or false
+    	 */
+    	public boolean sentenceContainsWord(WordWithTag w){
+    		for (int i = 0; i < wordsList.size(); i++){
+    			if (wordsList.get(i).word.equals(w.word)){
+    				return true;
+    			}
+    		
+     		}
+     		return false;
+    	}
+    	
+    	@Override
+		public String toString(){
+    		String str = "";
+    		for (WordWithTag w : wordsList){
+    			str += " " + w.toString();
+    		}
+    		if (str.length() > 1)
+    			str = str.substring(1);
+    		
+    		return str;
+    	}
     }
 }

@@ -3,11 +3,11 @@ package wordnet;
 import java.io.IOException;
 import java.util.HashMap;
 
-import rita.wordnet.*;
+import rita.wordnet.RiWordnet;
 
 public class WordNetInterface {
 	//http://rednoise.org/rita/wordnet/documentation/riwordnet_class_riwordnet.htm
-	static RiWordnet wordnet = new RiWordnet(null);// System.getProperty("user.dir") + File.separator + "WordNet");
+	public static RiWordnet wordnet = new RiWordnet(null);// System.getProperty("user.dir") + File.separator + "WordNet");
 
 	/** Get all the synonyms for a certain part of speech, like a or v (verb)
 	 */
