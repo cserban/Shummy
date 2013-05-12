@@ -2,8 +2,6 @@ package preprocessor;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.LinkedList;
-import java.util.Queue;
 
 public class BFSNode
 {
