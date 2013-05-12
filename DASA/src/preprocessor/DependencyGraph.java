@@ -1,15 +1,21 @@
 package preprocessor;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Hashtable;
+
+import common.Constants;
 
 import edu.stanford.nlp.ling.IndexedWord;
 import edu.stanford.nlp.semgraph.SemanticGraph;
 
 public class DependencyGraph {
 	ArrayList<DependencyNode> graph;
+	Hashtable<DependencyNode, HashSet<String>> ners;
 
 	public DependencyGraph() {
 		this.graph = new ArrayList<>();
+		this.ners = new Hashtable<>();
 	}
 
 	void addSentence(SemanticGraph dependencies, int sentenceId) {
@@ -74,4 +80,17 @@ public class DependencyGraph {
 		}
 	}
 	
+	ArrayList<String> setNers() {
+		for (DependencyNode root : this.graph) {
+			ArrayList<DependencyNode> nodes = Preprocessor.BFS(root);
+			// get all ners of this subgraph
+			HashSet<String> ner_set = new HashSet<>();
+			for (DependencyNode node : nodes)
+				if (!node.ner.equals(Constants.DEFAULT_NER))
+					ner_set.add(node.ner);
+			this.ners.put(root, ner_set);
+		}
+		return null;
+	}
+
 }

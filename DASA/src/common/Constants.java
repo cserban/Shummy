@@ -9,6 +9,7 @@ public class Constants {
 	public static String QA4MRE_FILE = QA4MRE_FOLDER + "data.txt";
 
 	public static int MAX_SYNONIMS = 100;
+	public static String DEFAULT_NER = "O";
 
 	// TODO (Diana): Try other list of stopwords.
 	// This one has some important words (such as "took", "said")

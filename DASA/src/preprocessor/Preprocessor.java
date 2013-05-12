@@ -3,6 +3,10 @@ package preprocessor;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -81,6 +85,7 @@ public class Preprocessor {
             SemanticGraph dependencies = sentence.get(CollapsedCCProcessedDependenciesAnnotation.class);
             dependencyGraph.addSentence(dependencies, sentences.indexOf(sentence));
         }
+        dependencyGraph.setNers();
         // This is the coreference link graph
         // Each chain stores a set of mentions that link to each other,
         // along with a method for getting the most representative mention
@@ -138,6 +143,19 @@ public class Preprocessor {
 				" (" + curentNode.posTag + ")");
             */
             BFS(curentNode);
+        }
+        System.out.println("--------------------------------------------------");
+        // print NER list of all root nodes
+        Hashtable<DependencyNode, HashSet<String>> table = preprocessor.dependencyGraph.ners;
+        Enumeration<DependencyNode> enumKey = table.keys();
+        while(enumKey.hasMoreElements()) {
+            DependencyNode key = enumKey.nextElement();
+            System.out.print(key.value + ": ");
+            HashSet<String> val = table.get(key);
+            Iterator<String> it = val.iterator();
+            while(it.hasNext())
+                System.out.print(it.next() + ", ");
+            System.out.println();
         }
     }
 }
