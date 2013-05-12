@@ -10,7 +10,7 @@ import edu.stanford.nlp.ling.IndexedWord;
 import edu.stanford.nlp.semgraph.SemanticGraph;
 
 public class DependencyGraph {
-	ArrayList<DependencyNode> graph;
+	public ArrayList<DependencyNode> graph;
 	Hashtable<DependencyNode, HashSet<String>> ners;
 
 	public DependencyGraph() {
