@@ -172,7 +172,7 @@ public class Preprocessor {
             ArrayList<DependencyNode> val = table.get(key);
             Iterator<DependencyNode> it = val.iterator();
             while(it.hasNext())
-                System.out.print(it.next() + ", ");
+                System.out.print(it.next().sentenceId + ", ");
             System.out.println();
         }
     }
