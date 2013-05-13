@@ -164,13 +164,13 @@ public class Preprocessor {
         
         System.out.println("--------------------------------------------------");
         // print NER list of all root nodes
-        Hashtable<DependencyNode, HashSet<String>> table = preprocessor.dependencyGraph.ners;
-        Enumeration<DependencyNode> enumKey = table.keys();
+        Hashtable<String, ArrayList<DependencyNode>> table = preprocessor.dependencyGraph.ners;
+        Enumeration<String> enumKey = table.keys();
         while(enumKey.hasMoreElements()) {
-            DependencyNode key = enumKey.nextElement();
-            System.out.print(key.value + ": ");
-            HashSet<String> val = table.get(key);
-            Iterator<String> it = val.iterator();
+            String key = enumKey.nextElement();
+            System.out.print(key + ": ");
+            ArrayList<DependencyNode> val = table.get(key);
+            Iterator<DependencyNode> it = val.iterator();
             while(it.hasNext())
                 System.out.print(it.next() + ", ");
             System.out.println();

@@ -1,8 +1,10 @@
 package preprocessor;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.Iterator;
 
 import common.Constants;
 
@@ -11,7 +13,7 @@ import edu.stanford.nlp.semgraph.SemanticGraph;
 
 public class DependencyGraph {
 	public ArrayList<DependencyNode> graph;
-	Hashtable<DependencyNode, HashSet<String>> ners;
+	Hashtable<String, ArrayList<DependencyNode>> ners;
 
 	public DependencyGraph() {
 		this.graph = new ArrayList<>();
@@ -81,6 +83,7 @@ public class DependencyGraph {
 	}
 	
 	ArrayList<String> setNers() {
+		Hashtable<DependencyNode, HashSet<String>> ners = new Hashtable<>();
 		for (DependencyNode root : this.graph) {
 			ArrayList<DependencyNode> nodes = Preprocessor.BFS(root);
 			// get all ners of this subgraph
@@ -88,9 +91,24 @@ public class DependencyGraph {
 			for (DependencyNode node : nodes)
 				if (!node.ner.equals(Constants.DEFAULT_NER))
 					ner_set.add(node.ner);
-			this.ners.put(root, ner_set);
+			ners.put(root, ner_set);
 		}
+        Enumeration<DependencyNode> enumKey = ners.keys();
+        while(enumKey.hasMoreElements()) {
+            DependencyNode key = enumKey.nextElement();
+            System.out.print(key.value + ": ");
+            HashSet<String> val = ners.get(key);
+            Iterator<String> it = val.iterator();
+            while(it.hasNext()) {
+            	String ne = it.next();
+            	if (this.ners.get(ne) == null)
+            		this.ners.put(ne, new ArrayList<DependencyNode>());
+            	ArrayList<DependencyNode> ne_list = this.ners.get(ne);
+            	ne_list.add(key);
+            	this.ners.put(ne, ne_list);
+            }
+            System.out.println();
+        }
 		return null;
-	}
-
+	}	
 }
