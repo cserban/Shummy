@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -175,6 +174,24 @@ public class Preprocessor {
                 System.out.print(it.next() + ", ");
             System.out.println();
         }
+    }
+    
+    public ArrayList<DependencyNode> compareWithHoleGraph(DependencyNode questionNode)
+    {
+
+    	ArrayList<DependencyNode> candidat = new ArrayList<>();
+        subgraphs.add(BFS(questionNode));
+        for (DependencyNode curentNode : this.dependencyGraph.graph)
+        {
+        	subgraphs.add(BFS(curentNode));
+        	ComparisonFunctions comp = new ComparisonFunctions(subgraphs.get(0), subgraphs.get(1));
+            if (comp.getResemblanceScoreBetweenGraphs() >= 0.2)
+            {
+            	candidat.add(curentNode);
+            }
+            subgraphs.remove(1);
+        }
+        return candidat;
     }
     
     public class WordWithTag{
