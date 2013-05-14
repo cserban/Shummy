@@ -36,7 +36,7 @@ import edu.stanford.nlp.util.CoreMap;
 public class Preprocessor {
 
 	
-	
+	public Double answersScore;
     public DependencyGraph dependencyGraph;
     public ArrayList<SentenceWithTag> sentencesFromCorpus;
     public static  ArrayList<ArrayList<DependencyNode>> subgraphs;
@@ -176,20 +176,54 @@ public class Preprocessor {
         }
     }
     
-    public ArrayList<DependencyNode> compareWithHoleGraph(DependencyNode questionNode)
+    public ArrayList<DependencyNode> compareWithGraph(DependencyNode questionNode,ArrayList<DependencyNode> toCompareGraph,Integer returnCandidatesNumber)
     {
 
     	ArrayList<DependencyNode> candidat = new ArrayList<>();
+    	ArrayList<Double> values = new ArrayList<>();
+    	double minScore = 0.0;
+    	subgraphs.clear();
         subgraphs.add(BFS(questionNode));
-        for (DependencyNode curentNode : this.dependencyGraph.graph)
+        
+        for (DependencyNode curentNode : toCompareGraph)
         {
         	subgraphs.add(BFS(curentNode));
         	ComparisonFunctions comp = new ComparisonFunctions(subgraphs.get(0), subgraphs.get(1));
-            if (comp.getResemblanceScoreBetweenGraphs() >= 0.2)
-            {
-            	candidat.add(curentNode);
-            }
+        	double score = comp.getResemblanceScoreBetweenGraphs();
+        	
+        	if (candidat.size() < returnCandidatesNumber)
+        	{
+        		candidat.add(curentNode);
+        		values.add(score);
+        	}
+        	
+        	else if (score > minScore)
+        	{
+        		for (int i = 0; i<candidat.size();i++)
+        		{
+        			if(values.get(i) == minScore)
+        			{
+        				values.set(i, score);
+        				candidat.set(i, curentNode);
+        				break;
+        			}
+        		}
+        	}
+        	
+        	minScore = values.get(0);
+        	for (Double v : values)
+        	{
+        		if (v < minScore)
+        		{
+        			minScore = v;
+        		}
+        	}
+        	
             subgraphs.remove(1);
+        }
+        if (candidat.size() == 1)
+        {
+        	answersScore = minScore;
         }
         return candidat;
     }
