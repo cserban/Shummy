@@ -9,7 +9,7 @@ public class Question {
 	public ArrayList<String> answers;
 	String contant;
 	String predictedAnswerClass;
-	DependencyNode graph;
+	public DependencyNode graph;
 	
 
 	int id;

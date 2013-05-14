@@ -9,7 +9,7 @@ import common.Constants;
 import common.FileInOut;
 
 public class Questions {
-	ArrayList<Question> questions;
+	public ArrayList<Question> questions;
 
 	public Questions() {
 		//File questionFiles = new File(Constants.QUESTIONS_FILE);
@@ -36,7 +36,7 @@ public class Questions {
 			e.printStackTrace();
 		}
 		
-		classifier();
+		//classifier();
 	}
 
 	public void classifier() {
