@@ -147,24 +147,38 @@ public class QuestionClassifier {
 	public static void main(String[] args) {
 		QuestionClassifier qc = new QuestionClassifier();
 		String predictedAnswerClass = qc
-				.testQuestion("What is the life expectancy for crickets ?");
+				.testQuestion("Why did Valerie and Grandpa laugh?");
 		System.out.println(predictedAnswerClass);
 		predictedAnswerClass = qc
-				.testQuestion("Where does Nicolas Vaaali live ?");
+				.testQuestion("What valuable advice did Grandpa give about Valerie's travel plan?");
 		System.out.println(predictedAnswerClass);
+		predictedAnswerClass = qc
+				.testQuestion("What unexpected experience did Grandpa describe from his first trip to Barcelona?");
+		System.out.println(predictedAnswerClass);
+		predictedAnswerClass = qc
+				.testQuestion("Why was Snowflake a popular exhibit at the zoo?");
+		System.out.println(predictedAnswerClass);
+		predictedAnswerClass = qc
+				.testQuestion("According to Grandpa, what is one serious danger for gorillas in Africa?");
+		System.out.println(predictedAnswerClass);
+		
 	}
 
 	public void train(String trainFileName) {
-		dataColumnClassifier = new ColumnDataClassifier(
-				"question/question.prop");
-		classifier = dataColumnClassifier.makeClassifier(dataColumnClassifier
-				.readTrainingExamples(trainFileName));
-		trained = true;
+		if(!trained) {
+			dataColumnClassifier = new ColumnDataClassifier(
+					"question/question.prop");
+			classifier = dataColumnClassifier.makeClassifier(dataColumnClassifier
+					.readTrainingExamples(trainFileName));
+			trained = true;
+		}
 	}
 
 	public String testQuestion(String question) {
 		String line = "ceva\t" + question;
-		return mapQuestionClass(test(line));
+		String classStr = test(line);
+		System.out.println("Classified: " + classStr);
+		return mapQuestionClass(classStr);
 	}
 
 	public static String mapQuestionClass(String questionClass) {
