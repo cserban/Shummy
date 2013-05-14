@@ -3,6 +3,7 @@ package question;
 import java.io.File;
 import java.util.ArrayList;
 
+import preprocessor.Preprocessor;
 import question.classifier.QuestionClassifier;
 
 import common.Constants;
@@ -30,8 +31,13 @@ public class Questions {
 			for (String answerFilename : answersFilenames) {
 				File tmp = new File(answerFilename);
 				String answer = FileInOut.readFile(tmp);
+
 				Question q = getQuestionByPath(tmp.getName().substring(0, tmp.getName().lastIndexOf("_")));
 				q.answers.add(answer);
+				
+				Preprocessor processTmp = new Preprocessor();
+				processTmp.stanfordPreprocess(answer);
+				q.answersGraph.add(processTmp.dependencyGraph.graph.get(0));
 				}
 
 		} catch (Exception e) {
