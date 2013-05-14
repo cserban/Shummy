@@ -28,7 +28,6 @@ public class Main {
 			writer.print("\n");
 			System.out.println("////////// " + questionIndex + " \\\\\\\\\\");
 			writer.print("////////// " + questionIndex + " \\\\\\\\\\");
-			writer.print("\n");
 			ArrayList<DependencyNode> candidats = new ArrayList<>();
 			candidats = preprocessor.compareWithGraph(
 					questions.questions.get(questionIndex).graph,
@@ -63,6 +62,13 @@ public class Main {
 				writer.print(questions.questions.get(questionIndex).answers.get(questions.questions
 						.get(questionIndex).answersGraph
 						.indexOf(answere)));
+				
+				writer.print(" (" );
+				for (DependencyNode node : preprocessor.BFS(selectedGraph)) {
+					System.out.print(node.value.value() + " ");
+					writer.print(node.value.value() + " ");
+				}
+				writer.print(")");
 				System.out.println("SCOR: " + preprocessor.answersScore);
 				if (preprocessor.answersScore > maxScore) {
 					maxScore = preprocessor.answersScore;
