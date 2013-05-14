@@ -14,7 +14,7 @@ public class Main {
         System.out.println("-----------------------------------------------------------------------------------------------------");
         System.out.println("-----------------------------------------------------------------------------------------------------");
         System.out.println();
-        for (DependencyNode root :	preprocessor.compareWithHoleGraph(questions.questions.get(3).graph))
+        for (DependencyNode root :	preprocessor.compareWithHoleGraph(questions.questions.get(0).graph))
         {
         	for (DependencyNode node : preprocessor.BFS(root))
         	{

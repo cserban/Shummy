@@ -171,7 +171,7 @@ public class Preprocessor {
             ArrayList<DependencyNode> val = table.get(key);
             Iterator<DependencyNode> it = val.iterator();
             while(it.hasNext())
-                System.out.print(it.next() + ", ");
+                System.out.print(it.next().value.value() + ", ");
             System.out.println();
         }
     }
@@ -181,11 +181,11 @@ public class Preprocessor {
 
     	ArrayList<DependencyNode> candidat = new ArrayList<>();
         subgraphs.add(BFS(questionNode));
-        for (DependencyNode curentNode : this.dependencyGraph.graph)
+        for (DependencyNode curentNode : this.dependencyGraph.ners.get("LOCATION"))
         {
         	subgraphs.add(BFS(curentNode));
         	ComparisonFunctions comp = new ComparisonFunctions(subgraphs.get(0), subgraphs.get(1));
-            if (comp.getResemblanceScoreBetweenGraphs() >= 0.2)
+            if (comp.getResemblanceScoreBetweenGraphs() >= 0.05)
             {
             	candidat.add(curentNode);
             }
