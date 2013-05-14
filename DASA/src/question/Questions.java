@@ -22,21 +22,23 @@ public class Questions {
 			for (String questionFilename : questionFilenames) {
 				File tmp = new File(questionFilename);
 				String question = FileInOut.readFile(tmp);
-				questions.add(new Question(question));
+				String path = tmp.getName().substring(0, tmp.getName().lastIndexOf("."));
+				questions.add(new Question(question, path));
 			}
 
 			
 			for (String answerFilename : answersFilenames) {
 				File tmp = new File(answerFilename);
 				String answer = FileInOut.readFile(tmp);
-				questions.get(Integer.parseInt(tmp.getName().split("_")[0])-1).answers.add(answer);
+				Question q = getQuestionByPath(tmp.getName().substring(0, tmp.getName().lastIndexOf("_")));
+				q.answers.add(answer);
 				}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		//classifier();
+		classifier();
 	}
 
 	public void classifier() {
@@ -52,4 +54,13 @@ public class Questions {
 		}
 	}
 
+	public Question getQuestionByPath(String path) {
+		for (Question question : questions) {
+			if (question.path.equals(path))
+				return question;
+		}
+		System.err.println("No question found for path " + path);
+		return null;
+	}
+	
 }
