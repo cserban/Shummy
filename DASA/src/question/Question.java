@@ -15,8 +15,9 @@ public class Question {
 
 	int id;
 	static int count = 0;
-
-	public Question(String contant) {
+	String path = "";
+	
+	public Question(String contant, String path) {
 		this.contant = contant;
 		answers = new ArrayList<>();
 		answersGraph = new ArrayList<>();
@@ -24,6 +25,7 @@ public class Question {
 		Preprocessor process = new Preprocessor();
 		process.stanfordPreprocess(contant);
 		graph = process.dependencyGraph.graph.get(0);
+		this.path = path;
 	}
 
 
