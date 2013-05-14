@@ -49,14 +49,17 @@ public class ReadXMLFile {
                     }
                 }
                 if (tempNode.getNodeName().equals("q_str")) {
+                	// get doc_id
+                	Node node = tempNode.getParentNode().getParentNode().getAttributes().item(0);
+                    String d_id = node.getNodeValue();
                     // get question_id
-                    Node node = tempNode.getParentNode().getAttributes().item(0);
+                    node = tempNode.getParentNode().getAttributes().item(0);
                     String q_id = node.getNodeValue();
                     // write question content to file
                     Writer writer = null;
                     try {
                         writer = new BufferedWriter(new OutputStreamWriter(
-                              new FileOutputStream(Constants.QA4MRE_FOLDER + "questions/" + q_id + ".txt"), "utf-8"));
+                              new FileOutputStream(Constants.QA4MRE_FOLDER + "questions/" + d_id + "_" + q_id + ".txt"), "utf-8"));
                         writer.write(tempNode.getTextContent());
                     } catch (IOException ex){
                     } finally {
@@ -64,21 +67,26 @@ public class ReadXMLFile {
                     }
                 }
                 if (tempNode.getNodeName().equals("answer")) {
+                	// get doc_id
+                	Node node = tempNode.getParentNode().getParentNode().getAttributes().item(0);
+                    String d_id = node.getNodeValue();
                     // get question_id
-                    Node node = tempNode.getParentNode().getAttributes().item(0);
+                    node = tempNode.getParentNode().getAttributes().item(0);
                     String q_id = node.getNodeValue();
                     node = tempNode.getAttributes().item(0);
                     String a_id = node.getNodeValue();
-
-                    // write each answer content to a file
-                    Writer writer = null;
-                    try {
-                        writer = new BufferedWriter(new OutputStreamWriter(
-                              new FileOutputStream(Constants.QA4MRE_FOLDER + "answers/" + q_id + "_" + a_id + ".txt"), "utf-8"));
-                        writer.write(tempNode.getTextContent());
-                    } catch (IOException ex){
-                    } finally {
-                       try {writer.close();} catch (Exception ex) {}
+                    if (tempNode.getTextContent().toUpperCase().equals(Constants.DEFAULT_ANSWER) == false)
+                    {
+	                    // write each answer content to a file
+	                    Writer writer = null;
+	                    try {
+	                        writer = new BufferedWriter(new OutputStreamWriter(
+	                              new FileOutputStream(Constants.QA4MRE_FOLDER + "answers/" + d_id + "_" + q_id + "_" + a_id + ".txt"), "utf-8"));
+	                        writer.write(tempNode.getTextContent());
+	                    } catch (IOException ex){
+	                    } finally {
+	                       try {writer.close();} catch (Exception ex) {}
+	                    }
                     }
                 }
                 if (tempNode.hasChildNodes()) {
