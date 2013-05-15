@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
-import preprocessor.Preprocessor.BFSNode;
-import preprocessor.Preprocessor.SentenceWithTag;
-import preprocessor.Preprocessor.WordWithTag;
 import wordnet.WordNetInterface;
 
 public class ComparisonFunctions {
@@ -982,14 +979,23 @@ public class ComparisonFunctions {
 //     	   System.out.println("--------------------------------------------------");
      	}
      	
-     	int m = (this.secondGraphArrayList.size() > this.firstGraphArrayList.size() ? this.secondGraphArrayList.size() : this.firstGraphArrayList.size());
-     	int s = 0;
-     	ArrayList<DependencyNode> uniqueValues = new ArrayList<DependencyNode>();
+//     	(this.secondGraphArrayList.size() > this.firstGraphArrayList.size() ? this.secondGraphArrayList.size() : this.firstGraphArrayList.size());
+
+     	int m = 0;     	
+     	int uvF = 0, uvS = 0;
+     	ArrayList<DependencyNode> uniqueValuesSecondGraph = new ArrayList<DependencyNode>();
      	for(DependencyNode dp : this.secondGraphArrayList){
-     		if(!uniqueValues.contains(dp)){
-     			s++;
+     		if(!uniqueValuesSecondGraph.contains(dp)){
+     			uvS++;
      		}
      	}
+     	ArrayList<DependencyNode> uniqueValuesFirstGraph = new ArrayList<DependencyNode>();
+     	for(DependencyNode dp : this.secondGraphArrayList){
+     		if(!uniqueValuesFirstGraph.contains(dp)){
+     			uvF++;
+     		}
+     	}
+     	m = (uvF > uvS ? uvF : uvS);
      	double f = m * 100.0;
      	System.out.println("listadim:" + m + " count:"+count +" total score:" + f + " and resemblance:" + resemblanceFactor);
      	// cuvinte gasite la fel/sau sinonime
