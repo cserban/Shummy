@@ -7,10 +7,11 @@ public class TaggerUtils {
 			pos_tag = "v";
 		else if (tag.startsWith("J"))
 			pos_tag = "a";
-		else if (tag.startsWith("N"))
-			pos_tag = "n";
 		else if (tag.startsWith("RB"))
 			pos_tag = "r";
+		else //if (tag.startsWith("N"))
+			pos_tag = "n";
+		
 		return pos_tag;
 	}
 }

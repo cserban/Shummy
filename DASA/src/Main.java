@@ -3,6 +3,8 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
+import common.ReadXMLFile;
+
 import preprocessor.DependencyNode;
 import preprocessor.Preprocessor;
 import question.Question;
@@ -10,6 +12,7 @@ import question.Questions;
 
 public class Main {
 	public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException {
+		ReadXMLFile.load();
 		Questions questions = new Questions();
 		// questions.classifier();
 		questions.print();

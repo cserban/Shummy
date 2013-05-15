@@ -2,6 +2,7 @@ package common;
 
 public class Constants {
 	public static String CORPUS_FOLDERNAME = "corpus";
+	public static String CORPUSPath_FOLDERNAME = "qa4mre/docs";
 	public static String ANSWERS_FOLDERNAME = "qa4mre/answers";
 	public static String QUESTIONS_FOLDERNAME = "qa4mre/questions";
 
