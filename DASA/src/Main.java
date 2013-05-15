@@ -32,7 +32,9 @@ public class Main {
 			System.out.println("////////// " + questionIndex + " \\\\\\\\\\");
 			writer.print("////////// " + questionIndex + " \\\\\\\\\\");
 			ArrayList<DependencyNode> candidats = new ArrayList<>();
-			candidats = preprocessor.compareWithGraph(questions.questions.get(questionIndex).graph, preprocessor.dependencyGraph.graph, 5);
+			candidats = preprocessor.compareWithGraph(
+					questions.questions.get(questionIndex).graph,
+					preprocessor.dependencyGraph.graph, 5);
 			for (DependencyNode root : candidats) {
 				for (DependencyNode node : preprocessor.BFS(root)) {
 					System.out.print(node.value.value() + " ");

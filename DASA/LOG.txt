@@ -1,6 +1,7 @@
 
 
 
+<<<<<<< HEAD
 ////////// 0 \\\\\does How work the drug 
 mice complication the perform are A further on we research Alzheimer 
 published was March article paper a ScienceExpress Therapeutics This Clear Deficits ApoE-Directed Rapidly Models Amyloid Reverse AD Mouse Reverse 
@@ -73,9 +74,85 @@ CHOOSING answers
 0.125 to talk with the Assistant Secretary of State for Western Hemisphere Affairs (proteins suspect amyloid-beta are A disease prime the )
 0.125 to prepare for the climate summit in Mexico (proteins suspect amyloid-beta are A disease prime the )
 0.125 to ensure access to resources in the Western hemisphere (proteins suspect amyloid-beta are A disease prime the )
+=======
+////////// 0 \\\\\slapped suddenly gorilla flat making gazed the 140-kilogram wall hand sound eyes we As the glass his a made loud forceful other out that people cry each in all the the room surprise 
+looked he up smiled came he When room granddaughter the Valerie his nineteen-year-old 
+made even They Zoo trip saw the Barcelona an unscheduled where they one grandchildren Snowflake 
+made forget It impression me will I never that an 
+did So do what you 
+
+CHOOSING answers
+
+0.16666666666666666 Valerie had not finished her preparation. (slapped suddenly gorilla flat making gazed the 140-kilogram wall hand sound eyes we As the glass his a made loud forceful other out that people cry each in all the the room surprise )
+0.21428571428571427 Valerie had too many things in her suitcase. (slapped suddenly gorilla flat making gazed the 140-kilogram wall hand sound eyes we As the glass his a made loud forceful other out that people cry each in all the the room surprise )
+0.23249999880790712 They both knew that what Valerie said was not true. (looked he up smiled came he When room granddaughter the Valerie his nineteen-year-old )
+0.1428571409649319 They both understood that Valerie had very little money. (slapped suddenly gorilla flat making gazed the 140-kilogram wall hand sound eyes we As the glass his a made loud forceful other out that people cry each in all the the room surprise )
 
 
 
+////////// 1 \\\\\paused grandfather replied know Valerie then slowly grandfather best sometimes You Valerie may it have be to plan not a detailed 
+have did have gorilla fur n't did he eyes This baby white said bright intelligent which forget Valerie would she never 
+thought Valerie moment replied a then Valerie wants want really Naomi see Well want all we visit to Tower all we visit to Museum the Eiffel to Museum the Louvre the Louvre 
+think did said real I fact not Grandpa he saw was when first I him 
+did So do what you 
+
+CHOOSING answers
+
+0.22222221891085306 Go to the zoo. (did So do what you )
+0.0 Travel light. (paused grandfather replied know Valerie then slowly grandfather best sometimes You Valerie may it have be to plan not a detailed )
+0.16666666666666666 Eat authentic dishes. (thought Valerie moment replied a then Valerie wants want really Naomi see Well want all we visit to Tower all we visit to Museum the Eiffel to Museum the Louvre the Louvre )
+0.125 Don't plan everything. (thought Valerie moment replied a then Valerie wants want really Naomi see Well want all we visit to Tower all we visit to Museum the Eiffel to Museum the Louvre the Louvre )
+
+
+
+////////// 2 \\\\\paused again went Grandpa said just we change zoo then come Grandpa day a the had especially We see one to works art the famous 
+did So do what you 
+have did have gorilla fur n't did he eyes This baby white said bright intelligent which forget Valerie would she never 
+think did said real I fact not Grandpa he saw was when first I him 
+made forget It impression me will I never that an 
+
+CHOOSING answers
+
+0.0 Meeting many strange people. (paused again went Grandpa said just we change zoo then come Grandpa day a the had especially We see one to works art the famous )
+0.2 Viewing various shocking works of art. (paused again went Grandpa said just we change zoo then come Grandpa day a the had especially We see one to works art the famous )
+0.0 Enjoying very spicy Spanish food. (paused again went Grandpa said just we change zoo then come Grandpa day a the had especially We see one to works art the famous )
+0.0 Encountering an unusual gorilla. (paused again went Grandpa said just we change zoo then come Grandpa day a the had especially We see one to works art the famous )
+
+
+
+////////// 3 \\\\\captured was forests brought old Snowflake Africa the then zoo Snowflake years When the three only 
+Snowflake name gorilla continued was His he gorilla a fur skin was he a albino special skin white pink very pink 
+laughed They both interested actually Valerie fashion not was because at all 
+unexpected completely one was But memories trip my greatest that 
+paused again went Grandpa said just we change zoo then come Grandpa day a the had especially We see one to works art the famous 
+
+CHOOSING answers
+
+0.2 He had a unique name. (paused again went Grandpa said just we change zoo then come Grandpa day a the had especially We see one to works art the famous )
+0.2 He was an unusual color. (captured was forests brought old Snowflake Africa the then zoo Snowflake years When the three only )
+0.2 He played many different tricks. (captured was forests brought old Snowflake Africa the then zoo Snowflake years When the three only )
+0.20833333333333334 He was kept behind a glass wall. (captured was forests brought old Snowflake Africa the then zoo Snowflake years When the three only )
+
+
+
+////////// 4 \\\\\book it a architecture Oh 's Spain the 
+live did Snowflake life years And gorilla a long forty equivalent a which years is human eighty a 
+better way killed is But life difficult hunters disease are gorillas in it say is that disease the wild many to which so 
+dead So now he 's 
+sad it animal live n't is But a such wonderful to cage a 
+
+CHOOSING answers
+
+0.15625 There is a high risk of getting skin cancer. (live did Snowflake life years And gorilla a long forty equivalent a which years is human eighty a )
+0.0 Air pollution causes damage to their health. (book it a architecture Oh 's Spain the )
+0.2 They are threatened by human violence. (better way killed is But life difficult hunters disease are gorillas in it say is that disease the wild many to which so )
+0.01666667064030965 Lions and other animals commonly attack them. (better way killed is But life difficult hunters disease are gorillas in it say is that disease the wild many to which so )
+>>>>>>> 97b3388bfe2a5a7ae45b906b53cee971c2aa0800
+
+
+//////////-----\\\\\//////////-----\\\\\
+
+<<<<<<< HEAD
 ////////// 5 \\\\\mice complication the perform are A further on we research Alzheimer 
 for mice 
 better Even FDA already drug approved is this treatment cancer the 
@@ -4553,3 +4630,11 @@ What action should be taken in order to reduce global warming?-->to increase car
 What is the largest publicly traded energy company?-->the Department of Energy
 What is the main activity of the company where Rex W. Tillerson works?-->research
 What is the main activity of the company where Rex W. Tillerson is the CEO?-->research
+=======
+
+Why did Valerie and Grandpa laugh?-->They both knew that what Valerie said was not true.
+What valuable advice did Grandpa give about Valerie's travel plan?-->Go to the zoo.
+What unexpected experience did Grandpa describe from his first trip to Barcelona?-->Viewing various shocking works of art.
+Why was Snowflake a popular exhibit at the zoo?-->He was kept behind a glass wall.
+According to Grandpa, what is one serious danger for gorillas in Africa?-->They are threatened by human violence.
+>>>>>>> 97b3388bfe2a5a7ae45b906b53cee971c2aa0800

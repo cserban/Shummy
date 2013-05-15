@@ -13,7 +13,7 @@ import edu.stanford.nlp.semgraph.SemanticGraph;
 
 public class DependencyGraph {
 	public ArrayList<DependencyNode> graph;
-	Hashtable<String, ArrayList<DependencyNode>> ners;
+	public Hashtable<String, ArrayList<DependencyNode>> ners;
 
 	public DependencyGraph() {
 		this.graph = new ArrayList<>();
