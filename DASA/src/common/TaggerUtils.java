@@ -9,8 +9,8 @@ public class TaggerUtils {
 			pos_tag = "a";
 		else if (tag.startsWith("RB"))
 			pos_tag = "r";
-		else //if (tag.startsWith("N"))
-			pos_tag = "n";
+		else
+			pos_tag = Constants.DEFAULT_POS;
 		
 		return pos_tag;
 	}

@@ -3,12 +3,12 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
-import common.ReadXMLFile;
-
 import preprocessor.DependencyNode;
 import preprocessor.Preprocessor;
 import question.Question;
 import question.Questions;
+
+import common.ReadXMLFile;
 
 public class Main {
 	public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException {
@@ -73,10 +73,18 @@ public class Main {
 				}
 				writer.print(")");
 				System.out.println("SCOR: " + preprocessor.answersScore);
-				if (preprocessor.answersScore > maxScore) {
+				if (preprocessor.answersScore >= maxScore) {
 					maxScore = preprocessor.answersScore;
-					questions.questions.get(questionIndex).choosenAnswere = questions.questions
-							.get(questionIndex).answersGraph.indexOf(answere);
+					if (maxScore == 0.0)
+					{
+						questions.questions.get(questionIndex).choosenAnswere = 5;
+					}
+					else
+					{
+						questions.questions.get(questionIndex).choosenAnswere = questions.questions
+								.get(questionIndex).answersGraph.indexOf(answere);
+					}
+					
 				}
 			}
 			writer.print("\n");
@@ -94,10 +102,19 @@ public class Main {
 		{
 			writer.print("\n");
 			writer.print(question.contant);
-			writer.print("-->" + question.answers.get(question.choosenAnswere));
+			if (question.choosenAnswere == 5)
+			{
+				writer.print("--> None of the above");
+				System.out.println ("--> None of the above");
+			}
+			else
+			{
+				writer.print("-->" + question.answers.get(question.choosenAnswere));
+				System.out.println ("-->" + question.answers.get(question.choosenAnswere));
+			}
 			System.out.println();
 			System.out.println (question.contant);
-			System.out.println ("-->" + question.answers.get(question.choosenAnswere));
+			
 			System.out.println();
 		}
 		writer.close();

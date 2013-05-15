@@ -44,7 +44,7 @@ public class Questions {
 			e.printStackTrace();
 		}
 		
-		classifier();
+//		classifier();
 	}
 
 	public void classifier() {

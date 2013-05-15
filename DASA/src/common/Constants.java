@@ -11,6 +11,7 @@ public class Constants {
 
 	public static int MAX_SYNONIMS = 100;
 	public static String DEFAULT_NER = "O";
+	public static String DEFAULT_POS = "n";
 	public static String DEFAULT_ANSWER = "NONE OF THE ABOVE";
 
 	// TODO (Diana): Try other list of stopwords.

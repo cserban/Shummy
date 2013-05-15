@@ -14,11 +14,12 @@ public class DependencyNode {
 	 public String lemValue;
 	 public String posTag;
 	 public String ner;
+	 public String str;
 
 	 // get all synonyms using: WordNetInterface.getAllSynonymsForPOS(str, pos_tag, Constants.MAX_SYNONIMS);
 	 public ArrayList<String> synonims;
 	 
-	 public DependencyNode(IndexedWord value,int id)
+	 public DependencyNode(IndexedWord value,int id,String str)
 	 {
 		 this.sentenceId = id;
 		 this.neighbours = new Hashtable<String, ArrayList<DependencyNode>>();
@@ -26,5 +27,6 @@ public class DependencyNode {
 		 this.link = new ArrayList<>();
 		 this.value = value;
 		 this.synonims = new ArrayList<>();
+		 this.str = str;
 	 }
 }

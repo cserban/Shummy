@@ -6,10 +6,7 @@ import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 
-import wordnet.WordNetInterface;
-
 import common.Constants;
-import common.TaggerUtils;
 
 import edu.stanford.nlp.ling.IndexedWord;
 import edu.stanford.nlp.semgraph.SemanticGraph;
@@ -23,15 +20,23 @@ public class DependencyGraph {
 		this.ners = new Hashtable<>();
 	}
 
-	void addSentence(SemanticGraph dependencies, int sentenceId) {
+	void addSentence(SemanticGraph dependencies, int sentenceId, String prop) {
 		//dependencies.prettyPrint();
 		if (dependencies.getRoots().size() != 1) {
 			System.err.println("Sentence " + sentenceId + " has " +
 								dependencies.getRoots().size() + " roots !!!");
+			IndexedWord curentWord = new IndexedWord();
+			curentWord.setValue(prop);
+			
+			DependencyNode node = new DependencyNode(curentWord, sentenceId,prop);
+			node.lemValue = prop;
+			node.posTag = Constants.DEFAULT_POS;
+			node.ner = Constants.DEFAULT_NER;
+			graph.add(node);
 		} else {
 			ArrayList<DependencyNode> tmpList = new ArrayList<>();
 			IndexedWord root = dependencies.getFirstRoot();
-			generateGraph(dependencies, root, tmpList, sentenceId);
+			generateGraph(dependencies, root, tmpList, sentenceId,prop);
 
 			for (DependencyNode curentNode : tmpList) {
 				for (DependencyNode possibleChildNode : tmpList) {
@@ -62,7 +67,7 @@ public class DependencyGraph {
 	}
 
 	void generateGraph(SemanticGraph dependencies, IndexedWord curentWord,
-			ArrayList<DependencyNode> tmpList, int sentenceId) {
+			ArrayList<DependencyNode> tmpList, int sentenceId,String sen) {
 
 		DependencyNode curentNode = null;
 		boolean exists = false;
@@ -72,18 +77,18 @@ public class DependencyGraph {
 			}
 		}
 		if (!exists) {
-			curentNode = new DependencyNode(curentWord, sentenceId);
+			curentNode = new DependencyNode(curentWord, sentenceId,sen);
 			curentNode.lemValue = curentWord.lemma();
 			curentNode.posTag = curentWord.tag();
 			curentNode.ner = curentWord.ner();
-			for (String synonim : WordNetInterface.getAllSynonymsForPOS(curentWord.value(),
-					TaggerUtils.fromStanfordTagToWordnetTag(curentNode.posTag), Constants.MAX_SYNONIMS))
-				curentNode.synonims.add(synonim);
 			tmpList.add(curentNode);
 		}
-		if (dependencies.getChildList(curentWord).size() != 0) {
+		
+		if (dependencies.getChildren(curentWord).size() > 0) {
 			for (IndexedWord child : dependencies.getChildList(curentWord))
-				generateGraph(dependencies, child, tmpList, sentenceId);
+			{
+				generateGraph(dependencies, child, tmpList, sentenceId,sen);
+			}
 		}
 	}
 	
