@@ -32,9 +32,24 @@ public class Main {
 			System.out.println("////////// " + questionIndex + " \\\\\\\\\\");
 			writer.print("////////// " + questionIndex + " \\\\\\\\\\");
 			ArrayList<DependencyNode> candidats = new ArrayList<>();
-			candidats = preprocessor.compareWithGraph(
-					questions.questions.get(questionIndex).graph,
-					preprocessor.dependencyGraph.graph, 5);
+			if (questions.questions.get(questionIndex).predictedAnswerClass.equals("MISC"))
+			{
+				candidats = preprocessor.compareWithGraph(questions.questions.get(questionIndex).graph,	preprocessor.dependencyGraph.graph, 5);
+			}
+			else
+			{
+				System.out.println(questions.questions.get(questionIndex).predictedAnswerClass);
+			      if (preprocessor.dependencyGraph.ners.containsKey(questions.questions.get(questionIndex).predictedAnswerClass))
+			      {
+				System.out.println(preprocessor.dependencyGraph.ners.get(questions.questions.get(questionIndex).predictedAnswerClass).size());
+				candidats = preprocessor.compareWithGraph(questions.questions.get(questionIndex).graph,
+						preprocessor.dependencyGraph.ners.get(questions.questions.get(questionIndex).predictedAnswerClass), (preprocessor.dependencyGraph.ners.get(questions.questions.get(questionIndex).predictedAnswerClass).size() > 5) ? 5 : preprocessor.dependencyGraph.ners.get(questions.questions.get(questionIndex).predictedAnswerClass).size() );
+			}
+			      else
+			      {
+			    	  candidats = preprocessor.compareWithGraph(questions.questions.get(questionIndex).graph,	preprocessor.dependencyGraph.graph, 5);
+			      }
+			}
 			for (DependencyNode root : candidats) {
 				for (DependencyNode node : preprocessor.BFS(root)) {
 					System.out.print(node.value.value() + " ");
