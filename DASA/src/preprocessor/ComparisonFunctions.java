@@ -854,8 +854,8 @@ public class ComparisonFunctions {
         double nodesum = 0;
         String pos = "";
         
-        printFirstGraphArrayList();
-        printSecondGraphArrayList();
+//        printFirstGraphArrayList();
+//        printSecondGraphArrayList();
         populateRelationArrays();
         
         for (DependencyNode firstGraphNode : this.firstGraphArrayList){
@@ -997,11 +997,66 @@ public class ComparisonFunctions {
      	}
      	m = (uvF > uvS ? uvF : uvS);
      	double f = m * 100.0;
-     	System.out.println("listadim:" + m + " count:"+count +" total score:" + f + " and resemblance:" + resemblanceFactor);
+     	System.out.println("listadim:" + m + " count:" + count +" total score:" + f + " and resemblance:" + resemblanceFactor);
      	// cuvinte gasite la fel/sau sinonime
      	resemblanceFactor = resemblanceFactor/f;
      	System.out.println("Factor de asemanare:" + resemblanceFactor);
     	return resemblanceFactor;
+    }
+    
+    
+    public double getSyntBetweenQuestionAndGraph(){
+    	double score = 0.0;
+    	int switchCase = 0;
+    	// in functie de tipul intrebarii trebuie sa caut un anumit tip de raspuns
+    	
+    	// fac un pattern matching pe intrebare
+    	// consider ca pot avea cuvintele: what, where, when, how, which, who, why
+    	// primul graph este intrebarea
+    	for(DependencyNode q : this.firstGraphArrayList){
+    		if(q.value.value().equalsIgnoreCase("What")){
+    			switchCase = 1;
+    		}
+    		
+    		if(q.value.value().equalsIgnoreCase("Where")){
+    			switchCase = 2;
+    		}
+    		
+    		if(q.value.value().equalsIgnoreCase("When")){
+    			switchCase = 3;
+    		}
+    		
+    		if(q.value.value().equalsIgnoreCase("How")){
+    			switchCase = 4;
+    		}
+    		
+    		if(q.value.value().equalsIgnoreCase("Which")){
+    			switchCase = 5;
+    		}	
+    		
+    		if(q.value.value().equals("Who")){
+    			switchCase = 6;
+    		}
+    		
+    		if(q.value.value().equals("Why")){
+    			switchCase = 7;
+    		}
+    		
+    	}
+    	
+    	switch(switchCase){
+    	case 0: break;
+    	case 1: break;
+    	case 2: break;
+    	case 3: break;
+    	case 4: break;
+    	case 5: break;
+    	case 6: break;
+    	case 7: break;
+    	
+    	}
+    	
+    	return score;
     }
     
     /**
@@ -1018,14 +1073,6 @@ public class ComparisonFunctions {
         	
         	if((parents = getSpecificParentsForNode(this.nsubjForFirstGraph, firstGraphNode)).size() > 0){
 //        		System.out.println("Subiectul pe care il caut e:"+firstGraphNode.value.value());
-        		if((parents = getSpecificParentsForNode(this.conjForFirstGraph, parents.get(0))).size() > 0){
-//        			for(DependencyNode vbs : parents)
-//        				System.out.println("Subiectul pe care il mai caut este:" + vbs.value.value());
-        		}
-        	}
-        	
-        	if((parents = getSpecificParentsForNode(this.nsubjForFirstGraph, firstGraphNode)).size() > 0){
-        		System.out.println("Subiectul pe care il caut e:"+firstGraphNode.value.value());
         		if((parents = getSpecificParentsForNode(this.conjForFirstGraph, parents.get(0))).size() > 0){
 //        			for(DependencyNode vbs : parents)
 //        				System.out.println("Subiectul pe care il mai caut este:" + vbs.value.value());
@@ -1057,8 +1104,6 @@ public class ComparisonFunctions {
     			for(DependencyNode vbs : parents)
     				System.out.println("Cuvinte dependente:" + vbs.value.value());
     		}
-        	
-        	
         	
         }
         
