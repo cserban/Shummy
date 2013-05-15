@@ -6,7 +6,10 @@ import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 
+import wordnet.WordNetInterface;
+
 import common.Constants;
+import common.TaggerUtils;
 
 import edu.stanford.nlp.ling.IndexedWord;
 import edu.stanford.nlp.semgraph.SemanticGraph;
@@ -73,9 +76,11 @@ public class DependencyGraph {
 			curentNode.lemValue = curentWord.lemma();
 			curentNode.posTag = curentWord.tag();
 			curentNode.ner = curentWord.ner();
+			for (String synonim : WordNetInterface.getAllSynonymsForPOS(curentWord.value(),
+					TaggerUtils.fromStanfordTagToWordnetTag(curentNode.posTag), Constants.MAX_SYNONIMS))
+				curentNode.synonims.add(synonim);
 			tmpList.add(curentNode);
 		}
-
 		if (dependencies.getChildList(curentWord).size() != 0) {
 			for (IndexedWord child : dependencies.getChildList(curentWord))
 				generateGraph(dependencies, child, tmpList, sentenceId);
