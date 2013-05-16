@@ -9,11 +9,8 @@ import wordnet.WordNetInterface;
 public class ComparisonFunctions {
     public ArrayList<DependencyNode> firstGraphArrayList;
     public ArrayList<DependencyNode> secondGraphArrayList;
+    public int type;
     
-
-    
-	
-	
     public int subgraphComparisonSum;
     ArrayList<SentenceWithTag> allSentences;
     SentenceWithTag sentence1, sentence2;
@@ -37,6 +34,7 @@ public class ComparisonFunctions {
     	}
     }
     
+    DependencyNode questionType;
     ArrayList<ParentChildRelationClass> abbrevForFirstGraph = new ArrayList<ParentChildRelationClass>();
 	ArrayList<ParentChildRelationClass> abbrevForSecondGraph = new ArrayList<ParentChildRelationClass>();
 	
@@ -346,8 +344,8 @@ public class ComparisonFunctions {
     }
     
     private void printSecondGraphArrayList(){
-    	System.out.println("--------------------------------------------------");
-    	System.out.println("Second list");
+//    	System.out.println("--------------------------------------------------");
+//    	System.out.println("Second list");
     	 for (DependencyNode secondGraphNode : this.secondGraphArrayList){
     		 System.out.println(secondGraphNode.value.value());
     	 }
@@ -355,27 +353,27 @@ public class ComparisonFunctions {
     }
     
     private void printFirstGraphArrayList(){
-    	System.out.println("--------------------------------------------------");
-    	System.out.println("First list");
+//    	System.out.println("--------------------------------------------------");
+//    	System.out.println("First list");
     	 for (DependencyNode secondGraphNode : this.firstGraphArrayList){
     		 System.out.println(secondGraphNode.value.value()); 
     	 }
-    	System.out.println("--------------------------------------------------");
+    	//System.out.println("--------------------------------------------------");
     }
     
     private void printComparisonNodes(){
-    	 System.out.println("--------------------------------------------------");
+    	 //System.out.println("--------------------------------------------------");
          Enumeration<String> enumKey = compArray.keys();
       	while(enumKey.hasMoreElements()) {
       		 String key = enumKey.nextElement();
       		 ArrayList<NodeComparisonResultClass> nodeArr = compArray.get(key);
       		for(int i = 0; i < nodeArr.size(); i++){
       	    	NodeComparisonResultClass n = nodeArr.get(i);
-      	    	System.out.println(n.firstNode.posTag + ":" + n.firstNodeValue + ":" + n.secondNodeValue + ":" + n.sum);
+      	    	//System.out.println(n.firstNode.posTag + ":" + n.firstNodeValue + ":" + n.secondNodeValue + ":" + n.sum);
       		}
       	}
       	
-      	System.out.println("--------------------------------------------------");
+      	//System.out.println("--------------------------------------------------");
     }
     
     /**
@@ -429,7 +427,7 @@ public class ComparisonFunctions {
             BM25Score += idf * wordFrequencyInSentence *(k1+1)/(wordFrequencyInSentence + k1 * (1 - b + b * (double)this.sentence2.wordsList.size()/avgdl));
     	}
     	
-    	System.out.println("BM25Score:"+BM25Score);
+    	//System.out.println("BM25Score:"+BM25Score);
     	return BM25Score;
     }
     
@@ -799,7 +797,7 @@ public class ComparisonFunctions {
      * @brief populates the relations arrays
      */
     public void populateRelationArrays(){
-    	System.out.println("Populez vectorii in care retin relatii");
+    	//System.out.println("Populez vectorii in care retin relatii");
     	// for each node I have a parent and the parent/child relation
     	  for (DependencyNode firstGraphNode : this.firstGraphArrayList){
     		  if (firstGraphNode.parents.isEmpty() == false){
@@ -811,7 +809,7 @@ public class ComparisonFunctions {
 	                    	    ArrayList<DependencyNode> valuesList = np.neighbours.get(key1);
 	                    	    if(valuesList.contains(firstGraphNode))
 	                    	    {
-	                    	    	System.out.println("parinte: " + np.value.value() + " copil: " + firstGraphNode.value.value() + " relatie: "+key1);
+	                    	    	//System.out.println("parinte: " + np.value.value() + " copil: " + firstGraphNode.value.value() + " relatie: "+key1);
 	                    	    	//secondNodeParents.add(new ParentChildRelationClass(np, n.secondNode, key1));
 	                    	    	addToArray(key1, np, firstGraphNode, 1);
 	                    	    }
@@ -820,7 +818,7 @@ public class ComparisonFunctions {
 	    			}
 	    		}
     	  }
-    	  System.out.println("--------------------------------------------------");
+    	  //System.out.println("--------------------------------------------------");
     	  for (DependencyNode secondGraphNode : this.secondGraphArrayList){
     		  if (secondGraphNode.parents.isEmpty() == false){
 	    			for(DependencyNode np : secondGraphNode.parents){
@@ -831,7 +829,7 @@ public class ComparisonFunctions {
 	                    	    ArrayList<DependencyNode> valuesList = np.neighbours.get(key1);
 	                    	    if(valuesList.contains(secondGraphNode))
 	                    	    {
-	                    	    	System.out.println("parinte: " + np.value.value() + " copil: " + secondGraphNode.value.value() + " relatie: "+key1);
+	                    	    	//System.out.println("parinte: " + np.value.value() + " copil: " + secondGraphNode.value.value() + " relatie: "+key1);
 	             	               	
 //	                    	    	System.out.println("Cheie nod2 parinte " + np.value.value() + " catre copil:"+key1);
 	                    	    	//secondNodeParents.add(new ParentChildRelationClass(np, n.secondNode, key1));
@@ -842,33 +840,38 @@ public class ComparisonFunctions {
 	    			}
 	    		}
     	  }
-    	  System.out.println("Am terminat de populat");
+    	  //System.out.println("Am terminat de populat");
 	}
     
     /**
      * @brief Compares nodes in DependencyGraphs
+     * @param type - if type is 1 -> first graph is the question
      * @return An ArrayList containing all similar nodes
      */
     public Hashtable<String, ArrayList<NodeComparisonResultClass>> compareSubgraphs(){
+    	
         this.subgraphComparisonSum = 0;
         double nodesum = 0;
         String pos = "";
+        // inseamna ca incerc sa compar intrebarea si ca trebuie sa iau in considerare anumite cuvinte
         
 //        printFirstGraphArrayList();
 //        printSecondGraphArrayList();
         populateRelationArrays();
         
         for (DependencyNode firstGraphNode : this.firstGraphArrayList){
+        	
         	boolean added = false;
         	nodesum = 0;
         	String key = firstGraphNode.value.value()+firstGraphNode.posTag;
-        	System.out.println(key);
+        	//System.out.println(key);
         	ArrayList<NodeComparisonResultClass> firstGraphArr = compArray.get(key);
         	
         	if (firstGraphArr == null)
         		firstGraphArr = new ArrayList<NodeComparisonResultClass>();
         	
         	for (DependencyNode secondGraphNode : this.secondGraphArrayList){
+        		
                 nodesum = 0;
                 if (firstGraphNode.posTag.equals(secondGraphNode.posTag) && firstGraphNode.value.value().equals(secondGraphNode.value.value())){
                     if (nodesum < 100){
@@ -890,7 +893,7 @@ public class ComparisonFunctions {
                     if (nodesum < 90){
                     	
                     	nodesum = 90;
-                    	System.out.println(firstGraphNode.posTag + ":" + firstGraphNode.value.value() + ":" + secondGraphNode.value.value() + ":" + nodesum);
+                    	//System.out.println(firstGraphNode.posTag + ":" + firstGraphNode.value.value() + ":" + secondGraphNode.value.value() + ":" + nodesum);
                     	firstGraphArr.add(new NodeComparisonResultClass(firstGraphNode, 
                                 secondGraphNode, nodesum, 
                                 firstGraphNode.lemValue, 
@@ -906,7 +909,7 @@ public class ComparisonFunctions {
                     double distance = WordNetInterface.wordnet.getDistance(firstGraphNode.lemValue , secondGraphNode.lemValue, pos);
                     if (nodesum < ((1 - distance) * 100)){
                 		nodesum = ((1 - distance) * 100);
-                		System.out.println(firstGraphNode.posTag + ":" + firstGraphNode.value.value() + ":" + secondGraphNode.value.value() + ":" + nodesum);
+                		//System.out.println(firstGraphNode.posTag + ":" + firstGraphNode.value.value() + ":" + secondGraphNode.value.value() + ":" + nodesum);
                 		firstGraphArr.add(new NodeComparisonResultClass(firstGraphNode, 
                                 secondGraphNode, 
                                 nodesum, 
@@ -941,8 +944,9 @@ public class ComparisonFunctions {
     
     
    
-    public double getResemblanceScoreBetweenGraphs(){
+    public double getResemblanceScoreBetweenGraphs(int type){
     	double resemblanceFactor = 0.0;
+    	this.type = type;
     	Hashtable<String, ArrayList<NodeComparisonResultClass>> arr = compareSubgraphs();
     	int count = 0;
     	
@@ -959,19 +963,25 @@ public class ComparisonFunctions {
 //     	    System.out.println("--------------------------------------------------");
      	    for(int i = 0; i < nodeArr.size(); i++){
      	    	NodeComparisonResultClass n = nodeArr.get(i);
-     	    	System.out.println(n.firstNode.posTag + ":" + n.firstNodeValue + ":" + n.secondNodeValue + ":" + n.sum);
+     	    	//System.out.println(n.firstNode.posTag + ":" + n.firstNodeValue + ":" + n.secondNodeValue + ":" + n.sum);
      	    	// daca scorul e mai mare de 70, pot sa-l adaug linistita la lista
      	    	if(n.sum > max){
      	    		max = n.sum;
      	    		index  = i;
      	    	}
-     	    		
+     	    	
+     	    	if(n.sum == 0)
+     	    	{ 
+     	    		// daca am tip de intrebare selectat
+     	    		if(questionType != null)
+     	    			resemblanceFactor += getSyntacticResemblanceScoreBetweenGraphs(n.firstNode, n.secondNode);
+     	    	}	
      	    }
      	  
      	   if(max > 70 && index > -1){
-	    		System.out.println("Scorul:");
+	    		//System.out.println("Scorul:");
     	    	NodeComparisonResultClass n1 = nodeArr.get(index);
-    	    	System.out.println("Am ales:" + n1.firstNodeValue + ":" + n1.secondNodeValue + ":" + n1.sum);
+    	    	//System.out.println("Am ales:" + n1.firstNodeValue + ":" + n1.secondNodeValue + ":" + n1.sum);
     	    	resemblanceFactor += n1.sum;
     	    	count++;
 	    	}
@@ -995,119 +1005,167 @@ public class ComparisonFunctions {
      			uvF++;
      		}
      	}
+     	// nu trebuie sa iau in considerare si cuvantul introductiv din intrebare
+     	if(questionType != null){
+     		uvF--;
+     		uvS--;
+     	}
      	m = (uvF > uvS ? uvF : uvS);
      	double f = m * 100.0;
-     	System.out.println("listadim:" + m + " count:" + count +" total score:" + f + " and resemblance:" + resemblanceFactor);
+     	//System.out.println("listadim:" + m + " count:" + count +" total score:" + f + " and resemblance:" + resemblanceFactor);
      	// cuvinte gasite la fel/sau sinonime
      	resemblanceFactor = resemblanceFactor/f;
-     	System.out.println("Factor de asemanare:" + resemblanceFactor);
+     	//System.out.println("Factor de asemanare:" + resemblanceFactor);
     	return resemblanceFactor;
     }
     
     
-    public double getSyntBetweenQuestionAndGraph(){
-    	double score = 0.0;
-    	int switchCase = 0;
-    	// in functie de tipul intrebarii trebuie sa caut un anumit tip de raspuns
-    	
-    	// fac un pattern matching pe intrebare
-    	// consider ca pot avea cuvintele: what, where, when, how, which, who, why
-    	// primul graph este intrebarea
+    public void constructQuestionType(){
     	for(DependencyNode q : this.firstGraphArrayList){
-    		if(q.value.value().equalsIgnoreCase("What")){
-    			switchCase = 1;
+    		if(q.value.value().equals("What")){
+    			questionType = q;
     		}
     		
-    		if(q.value.value().equalsIgnoreCase("Where")){
-    			switchCase = 2;
+    		else if(q.value.value().equals("Where")){
+    			questionType = q;
     		}
     		
-    		if(q.value.value().equalsIgnoreCase("When")){
-    			switchCase = 3;
+    		else if(q.value.value().equals("When")){
+    			questionType = q;
+    			
     		}
     		
-    		if(q.value.value().equalsIgnoreCase("How")){
-    			switchCase = 4;
+    		else if(q.value.value().equals("How")){
+    			questionType = q;
     		}
     		
-    		if(q.value.value().equalsIgnoreCase("Which")){
-    			switchCase = 5;
+    		else if(q.value.value().equals("Which")){
+    			questionType = q;
     		}	
     		
-    		if(q.value.value().equals("Who")){
-    			switchCase = 6;
+    		else if(q.value.value().equals("Who")){
+    			questionType = q;
     		}
     		
-    		if(q.value.value().equals("Why")){
-    			switchCase = 7;
+    		else if(q.value.value().equals("Why")){
+    			questionType = q;
     		}
-    		
     	}
     	
-    	switch(switchCase){
-    	case 0: break;
-    	case 1: break;
-    	case 2: break;
-    	case 3: break;
-    	case 4: break;
-    	case 5: break;
-    	case 6: break;
-    	case 7: break;
-    	
-    	}
-    	
-    	return score;
     }
     
     /**
-     * @brief noua functie pentru scor
+     * @brief noua functie pentru scor sintactic
+     * @param value - valoarea nodului
+     * @param 
      * @return double : noul scor dupa ce a luat in considerare si parintii
      */
-    public double getSyntacticResemblanceScoreBetweenGraphs(){
+    public double getSyntacticResemblanceScoreBetweenGraphs(DependencyNode firstGraphNode, DependencyNode secondGraphNode){
     	double syntacticResem = 0.0;
-    	// am toate arraylisturile de relatii filled
-    	//populateRelationArrays();
-        for (DependencyNode firstGraphNode : this.firstGraphArrayList){
+    	System.out.println("Intrebare:"+questionType.value.value());
+    	
         	ArrayList<DependencyNode> parents;
-//        	System.out.println(""+firstGraphNode.value.value() + ":" + firstGraphNode.posTag);
-        	
+        	ArrayList<DependencyNode> parentsInConj;
+//        	System.out.println(""+firstGraphNode.value.value() + ":" + secondGraphNode.value.value());
+        	// obtin verbele
         	if((parents = getSpecificParentsForNode(this.nsubjForFirstGraph, firstGraphNode)).size() > 0){
-//        		System.out.println("Subiectul pe care il caut e:"+firstGraphNode.value.value());
-        		if((parents = getSpecificParentsForNode(this.conjForFirstGraph, parents.get(0))).size() > 0){
-//        			for(DependencyNode vbs : parents)
-//        				System.out.println("Subiectul pe care il mai caut este:" + vbs.value.value());
+        		if (questionType.value.value().equals("Where") || questionType.value.value().equals("Who") || questionType.value.value().equals("Why") || questionType.value.value().equals("Which")){
+        			for(int j = 0; j < parents.size(); j++)
+        				if(parents.get(j).value.value().equals(secondGraphNode.value.value()))
+        					return 100.0;
+        			
+            			else if((parentsInConj = getSpecificParentsForNode(this.conjForFirstGraph, parents.get(j))).size() > 0){
+                			for(DependencyNode vbs : parentsInConj){
+                				if(secondGraphNode.value.value().equals(vbs.value.value()))
+                					return 100.0;
+                			}
+                				
+                		}
+        		}
+        		
+        	}
+        	
+        	if((parents =getSpecificParentsForNode(this.nsubjpassForFirstGraph, firstGraphNode)).size() > 0){
+        		if (questionType.value.value().equals("Where") || questionType.value.value().equals("Who") || questionType.value.value().equals("Why") || questionType.value.value().equals("Which")){
+        			for(int j = 0; j < parents.size(); j++)
+        				if(parents.get(j).value.value().equals(secondGraphNode.value.value()))
+        					return 100.0;
+        			
+            			else if((parentsInConj = getSpecificParentsForNode(this.conjForFirstGraph, parents.get(j))).size() > 0){
+                			for(DependencyNode vbs : parentsInConj){
+                				if(secondGraphNode.value.value().equals(vbs.value.value()))
+                					return 100.0;
+                			}	
+                		}
         		}
         	}
         	
-        	if(getSpecificParentsForNode(this.nsubjpassForFirstGraph, firstGraphNode).size() > 0){
-        		System.out.println("Subiectul pasiv pe care il caut e:"+firstGraphNode.value.value());
-        		if((parents = getSpecificParentsForNode(this.conjForFirstGraph, parents.get(0))).size() > 0){
-//        			for(DependencyNode vbs : parents)
-//        				System.out.println("Subiectul pasiv pe care il mai caut este:" + vbs.value.value());
-        		}
-        	}
-        	
-        	if((parents = getSpecificParentsForNode(this.negForFirstGraph, firstGraphNode)).size() == 1){
-//        		System.out.println("Verbul negat pe care il caut este:"+parents.get(0).value.value());
-        	}
-        	
-        	if((parents = getSpecificParentsForNode(this.rootForFirstGraph, firstGraphNode)).size() == 1){
-        		System.out.println("Verbul pe care il caut e:"+parents.get(0).value.value());
-        		// pentru verb trebuie sa mai caut toate verbele legate de el prin conjunctii
-        		if((parents = getSpecificParentsForNode(this.conjForFirstGraph, parents.get(0))).size() > 0){
-//        			for(DependencyNode vbs : parents)
-//        				System.out.println("Verbul pe care il mai caut e:" + vbs.value.value());
-        		}
-        	}
         	
         	if((parents = getSpecificParentsForNode(this.conjForFirstGraph, firstGraphNode)).size() > 0){
     			for(DependencyNode vbs : parents)
-    				System.out.println("Cuvinte dependente:" + vbs.value.value());
+    				if(vbs.value.value().equals(secondGraphNode.value.value()))
+    					return 20.0;
+    				
     		}
         	
-        }
-        
-    	
+        	if((parents = getSpecificParentsForNode(this.prepForFirstGraph, firstGraphNode)).size() > 0){
+    			for(DependencyNode vbs : parents)
+    				if(vbs.value.value().equals(secondGraphNode.value.value()))
+    					return 50.0;
+    		}
+        	
+        	if(questionType.value.value().equals("When") && (parents = getSpecificParentsForNode(this.tmodForFirstGraph, firstGraphNode)).size() > 0){
+    			for(DependencyNode vbs : parents)
+    				if(vbs.value.value().equals(secondGraphNode.value.value()))
+    					return 100.0;
+    		}
+        	
+        	if(questionType.value.value().equals("Where") && (parents = getSpecificParentsForNode(this.xsubjForFirstGraph, firstGraphNode)).size() > 0){
+    			for(DependencyNode vbs : parents)
+    				if(vbs.value.value().equals(secondGraphNode.value.value()))
+    					return 100.0;
+    		}
+        	
+        	if (questionType.value.value().equals("What") || questionType.value.value().equals("Why") || questionType.value.value().equals("How")){
+        		if((parents = getSpecificParentsForNode(this.dobjForFirstGraph, firstGraphNode)).size() > 0){
+        			for(DependencyNode vbs : parents)
+        				if(vbs.value.value().equals(secondGraphNode.value.value()))
+        					return 100.0;
+        		}
+        	}
+        	
+        	if (questionType.value.value().equals("What")){
+        		if((parents = getSpecificParentsForNode(this.amodForFirstGraph, firstGraphNode)).size() > 0){
+        			for(DependencyNode vbs : parents)
+        				if(vbs.value.value().equals(secondGraphNode.value.value()))
+        					return 100.0;
+        		}
+        	}
+        	
+        	if (questionType.value.value().equals("What")){
+        		if((parents = getSpecificParentsForNode(this.agentForFirstGraph, firstGraphNode)).size() > 0){
+        			for(DependencyNode vbs : parents)
+        				if(vbs.value.value().equals(secondGraphNode.value.value()))
+        					return 100.0;
+        		}
+        	}
+        	
+        	if (questionType.value.value().equals("When") || questionType.value.value().equals("How")){
+        		if((parents = getSpecificParentsForNode(this.numForFirstGraph, firstGraphNode)).size() > 0){
+        			for(DependencyNode vbs : parents)
+        				if(vbs.value.value().equals(secondGraphNode.value.value()))
+        					return 100.0;
+        		}
+        	}
+        	
+        	
+        	if((parents = getSpecificParentsForNode(this.detForFirstGraph, firstGraphNode)).size() > 0){
+    			for(DependencyNode vbs : parents)
+    				if(vbs.value.value().equals(secondGraphNode.value.value()))
+    					return 30.0;
+    		}
+        	
+
     	return syntacticResem;
     }
     
