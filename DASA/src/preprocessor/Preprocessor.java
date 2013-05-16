@@ -171,7 +171,6 @@ public class Preprocessor {
 	        }
 	        v.visited = true;
 	        nodesInGraph.add(v.n);
-	        System.out.println(" " + v.n.value.value() + " v:" + v.n.neighbours.size());
 	    }
 	    System.out.println("\n");
 	    return nodesInGraph;
@@ -188,7 +187,7 @@ public class Preprocessor {
             subgraphs.add(BFS(curentNode));
         }
         ComparisonFunctions comp = new ComparisonFunctions(subgraphs.get(0), subgraphs.get(1));
-        comp.getResemblanceScoreBetweenGraphs();
+        comp.getResemblanceScoreBetweenGraphs(0);
         
         System.out.println("--------------------------------------------------");
         // print NER list of all root nodes
@@ -205,7 +204,7 @@ public class Preprocessor {
         }
     }
     
-    public ArrayList<DependencyNode> compareWithGraph(DependencyNode questionNode,ArrayList<DependencyNode> toCompareGraph,Integer returnCandidatesNumber)
+    public ArrayList<DependencyNode> compareWithGraph(DependencyNode questionNode,ArrayList<DependencyNode> toCompareGraph,Integer returnCandidatesNumber, int type)
     {
 
     	ArrayList<DependencyNode> candidat = new ArrayList<>();
@@ -218,7 +217,7 @@ public class Preprocessor {
         {
         	subgraphs.add(BFS(curentNode));
         	ComparisonFunctions comp = new ComparisonFunctions(subgraphs.get(0), subgraphs.get(1));
-        	double score = comp.getResemblanceScoreBetweenGraphs();
+        	double score = comp.getResemblanceScoreBetweenGraphs(type);
         	
         	if (candidat.size() < returnCandidatesNumber)
         	{
