@@ -14,7 +14,7 @@ public class Main {
 	public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException {
 		ReadXMLFile.load();
 		Questions questions = new Questions();
-		// questions.classifier();
+		 questions.classifier();
 		questions.print();
 
 		Preprocessor preprocessor = new Preprocessor();
@@ -24,7 +24,7 @@ public class Main {
 		System.out.println();
 
 		PrintWriter writer = new PrintWriter("LOG.txt", "UTF-8");
-		
+		// questions.questions.size();
 		for (int questionIndex = 0; questionIndex < questions.questions.size(); questionIndex++) {
 			writer.print("\n");
 			writer.print("\n");
@@ -32,9 +32,25 @@ public class Main {
 			System.out.println("////////// " + questionIndex + " \\\\\\\\\\");
 			writer.print("////////// " + questionIndex + " \\\\\\\\\\");
 			ArrayList<DependencyNode> candidats = new ArrayList<>();
-			candidats = preprocessor.compareWithGraph(
-					questions.questions.get(questionIndex).graph,
-					preprocessor.dependencyGraph.graph, 5);
+			// compar initial intrebarea cu subgraful
+			if (questions.questions.get(questionIndex).predictedAnswerClass.equals("MISC"))
+			{
+				candidats = preprocessor.compareWithGraph(questions.questions.get(questionIndex).graph,	preprocessor.dependencyGraph.graph, 5, 1);
+			}
+			else
+			{
+				System.out.println(questions.questions.get(questionIndex).predictedAnswerClass);
+			      if (preprocessor.dependencyGraph.ners.containsKey(questions.questions.get(questionIndex).predictedAnswerClass))
+			      {
+				System.out.println(preprocessor.dependencyGraph.ners.get(questions.questions.get(questionIndex).predictedAnswerClass).size());
+				candidats = preprocessor.compareWithGraph(questions.questions.get(questionIndex).graph,
+						preprocessor.dependencyGraph.ners.get(questions.questions.get(questionIndex).predictedAnswerClass), (preprocessor.dependencyGraph.ners.get(questions.questions.get(questionIndex).predictedAnswerClass).size() > 5) ? 5 : preprocessor.dependencyGraph.ners.get(questions.questions.get(questionIndex).predictedAnswerClass).size(),1);
+			}
+			      else
+			      {
+			    	  candidats = preprocessor.compareWithGraph(questions.questions.get(questionIndex).graph,	preprocessor.dependencyGraph.graph, 5, 1);
+			      }
+			}
 			for (DependencyNode root : candidats) {
 				for (DependencyNode node : preprocessor.BFS(root)) {
 					System.out.print(node.value.value() + " ");
@@ -55,7 +71,7 @@ public class Main {
 				preprocessor.answersScore = 0.0;
 				writer.print("\n");
 				
-				DependencyNode selectedGraph = preprocessor.compareWithGraph(answere, candidats, 1).get(0);
+				DependencyNode selectedGraph = preprocessor.compareWithGraph(answere, candidats, 1, 0).get(0);
 				writer.print(preprocessor.answersScore +" ");
 				System.out
 						.println("FOr: "
